@@ -43,6 +43,12 @@ All of the methods throw `CheckFailedException` derived from `RuntimeException`,
 * It is clear that it comes from a "check" call ; 
 * It is not considered as unresolvable as an [`Error`](http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html)
 
+Loading into Eclipse
+--------------------
+
+The directory "utils_checks" in the git repository is an Eclipse project, so everything can be pulled into Eclipse 
+via "git repository exploring".
+
 License
 -------
 
