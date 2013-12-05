@@ -25,6 +25,10 @@ For Groovy:
 
 For Groovy in particular, see also the [Groovy Power Assert](spot.com/2009/05/new-power-assertions-in-groovy.html).
 
+See also:
+
+* [argcheck](http://who-t.blogspot.com/2013/12/argcheck-assert-on-steroids.html) - asserts for C on steroids
+
 How
 ---
 
@@ -47,7 +51,12 @@ Loading into Eclipse
 --------------------
 
 The directory "utils_checks" in the git repository is an Eclipse project, so everything can be pulled into Eclipse 
-via "git repository exploring".
+directly via "git repository exploring".
+
+Improvements
+------------
+
+Using [paranamer](https://github.com/paul-hammant/paranamer) to determine parameter names at runtime.
 
 License
 -------
