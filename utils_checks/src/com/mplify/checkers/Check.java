@@ -62,6 +62,7 @@ import java.util.Map;
  *              which is used to tell the developer what's up
  * 2013.02.21 - Added "imply()" 
  * 2013.06.21 - Renamed "_check" to "Check" for consistency
+ * 2014.01.19 - Added notNullAndLargerThanZero()
  * 
  * TODO: 
  * 
@@ -315,6 +316,19 @@ public class Check {
             if (x.intValue() <= 0) {
                 throw new CheckFailedException("The object '" + name + "' is less than or equal to 0: " + x);
             }
+        }
+    }
+
+    /**
+     * Is x not null and x > 0? Throw CheckFailedException if not
+     */
+
+    public static void notNullAndLargerThanZero(Integer x, String name) {
+        if (x == null) {
+            throw new CheckFailedException("The integer '" + name + "' is (null)");
+        }
+        if (x.intValue() <= 0) {
+            throw new CheckFailedException("The integer '" + name + "' is less than or equal to 0: " + x);
         }
     }
 
