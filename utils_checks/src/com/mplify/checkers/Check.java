@@ -63,6 +63,7 @@ import java.util.Map;
  * 2013.02.21 - Added "imply()" 
  * 2013.06.21 - Renamed "_check" to "Check" for consistency
  * 2014.01.19 - Added notNullAndLargerThanZero()
+ * 2014.01.21 - Reorganized methods 
  * 
  * TODO: 
  * 
@@ -74,75 +75,101 @@ public class Check {
 
     private final static boolean formatterAlwaysOn = false;
     private final static String innocuousText = "Testing of formatting: ";
-    
+
     /**
-     * This is used when Check.cannotHappen() or Check.fail() is called. This will *always* 
-     * result in a runtime exception, but the compile-time verifier demands a proper return
-     * after the call.
+     * This is used when Check.cannotHappen() or Check.fail() is called. This
+     * will *always* result in a runtime exception, but the compile-time
+     * verifier demands a proper return after the call.
      * 
-     * Insert "throw new Error(Check.NEVER_GET_HERE_BUT_NEEDED_FOR_KEEPING_COMPILER_HAPPY);"
+     * Insert
+     * "throw new Error(Check.NEVER_GET_HERE_BUT_NEEDED_FOR_KEEPING_COMPILER_HAPPY);"
      * 
-     * in that case to tell the compiler who's boss. 
+     * in that case to tell the compiler who's boss.
      */
-    
+
     public static final String NEVER_GET_HERE_BUT_NEEDED_FOR_KEEPING_COMPILER_HAPPY = "Never get here but needed for keeping compiler happy";
-       
+
     /**
-     * Check that object "x" is not null, throw CheckException if it is.
+     * Check that object "x" is not null, throw CheckFailedException if it is.
      */
 
     public static void notNull(Object x, String name) {
         if (x == null) {
-            throw new CheckFailedException("The object '" + name + "' is (null)");
+            if (name == null) {
+                throw new CheckFailedException("The unnamed object is (null)");
+            } else {
+                throw new CheckFailedException("The object '" + name + "' is (null)");
+            }
         }
     }
 
     /**
-     * Check that object "x" is not null, throw CheckException if it is.
+     * Check that object "x" is not null, throw CheckFailedException if it is.
      */
 
     public static void notNull(Object x) {
-        if (x == null) {
-            throw new CheckFailedException("The passed object is (null)");
-        }
+        notNull(x, null);
     }
-    
+
     /**
-     * Check that Collection "x" is not null and contains elements, throw CheckFailedException otherwise.
+     * Check that Object "x" is not null and contains elements, throw
+     * CheckFailedException otherwise.
      */
 
-    public static void notNullAndNotEmptyCollection(Collection<?> x, String name) {
-        if (x == null) {
-            throw new CheckFailedException("The Collection '" + name + "' is (null)");
-        }
-        if (x.isEmpty()) {
-            throw new CheckFailedException("The Collection '" + name + "' is empty");
+    @SuppressWarnings("rawtypes")
+    public static void notNullAndNotEmpty(Object x, String name) {
+        notNull(x, name);
+        if (x instanceof Collection) {
+            if (((Collection) x).isEmpty()) {
+                if (name == null) {
+                    throw new CheckFailedException("The unnamed Collection is empty");
+                } else {
+                    throw new CheckFailedException("The Collection '" + name + "' is empty");
+                }
+            }
+        } else if (x instanceof Map) {
+            if (((Map) x).isEmpty()) {
+                if (name == null) {
+                    throw new CheckFailedException("The unnamed Map is empty");
+                } else {
+                    throw new CheckFailedException("The Map '" + name + "' is empty");
+                }
+            }
+        } else if (x instanceof String) {
+            if (((String) x).isEmpty()) {
+                if (name == null) {
+                    throw new CheckFailedException("The unnamed String is empty");
+                } else {
+                    throw new CheckFailedException("The String '" + name + "' is empty");
+                }
+            }
+        } else {
+            fail("The passed object of type " + x.getClass().getName() + " is not handled -- fix code!");
         }
     }
 
     /**
-     * Check that Map "x" is not null and contains elements, throw CheckFailedException otherwise.
+     * Check that Object "x" is not null and contains elements, throw
+     * CheckFailedException otherwise.
      */
 
-    public static void notNullAndNotEmptyMap(Map<?,?> x, String name) {
-        if (x == null) {
-            throw new CheckFailedException("The Map '" + name + "' is (null)");
-        }
-        if (x.isEmpty()) {
-            throw new CheckFailedException("The Map '" + name + "' is empty");
-        }
+    public static void notNullAndNotEmpty(Object x) {
+        notNullAndNotEmpty(x, null);
     }
 
     /**
-     * Check that String "x" is not null and contains stuff other than whitespace, throw CheckFailedException otherwise.
+     * Check that String "x" is not null and contains stuff other than
+     * whitespace, throw CheckFailedException otherwise.
      */
 
     public static void notNullAndNotOnlyWhitespace(String x, String name) {
-        if (x == null) {
-            throw new CheckFailedException("The String '" + name + "' is (null)");
-        }
+        notNull(x, name);
         if (x.isEmpty()) {
-            throw new CheckFailedException("The String '" + name + "' is empty");
+            if (name == null) {
+                throw new CheckFailedException("The unnamed String is empty");
+            } else {
+                throw new CheckFailedException("The String '" + name + "' is empty");
+            }
         }
         int len = x.length();
         for (int i = 0; i < len; i++) {
@@ -150,37 +177,124 @@ public class Check {
                 return; // OUTTA HERE; not whitespace only
             }
         }
-        throw new CheckFailedException("The String '" + name + "' is fully whitespace");
-    }
-
-    /**
-     * This is a specialized check for database retrieval, it throws "UnexpectedDataException", a
-     * subclass of RuntimeException
-     */
-
-    public static void storeFieldNotNull(Object x, String name) {
-        if (x == null) {
-            throw new UnexpectedDataException("Field '" + name + "' has (null) content, which should not happen");
+        if (name == null) {
+            throw new CheckFailedException("The unnamed String is fully whitespace");
+        } else {
+            throw new CheckFailedException("The String '" + name + "' is fully whitespace");
         }
     }
 
     /**
-     * Check whether a condition yields "true". If not, the "txt" is interpreted as a printf/SLF4J format
-     * string and combined with the varargs to form the error message in the thrown CheckFailedException.
+     * Check that String "x" is not null and contains stuff other than
+     * whitespace, throw CheckFailedException otherwise.
      */
 
-    public static void isTrue(boolean x, String txt, Object... args) {
+    public static void notNullAndNotOnlyWhitespace(String x) {
+        notNullAndNotOnlyWhitespace(x, null);
+    }
+
+    /**
+     * Check whether a condition yields "true", throw CheckFailedException if
+     * not.
+     */
+
+    public static void isTrue(boolean x) {
         if (!x) {
-            throw new CheckFailedException(Formatter.formatForMe(txt, args));
+            throw new CheckFailedException("Test for 'true' fails (no further indication or text)");
+        }
+    }
+
+    /**
+     * Check whether a condition yields "true", throw CheckFailedException if
+     * not.
+     */
+
+    public static void isTrue(boolean x, String txt) {
+        if (!x) {
+            throw new CheckFailedException(txt);
+        }
+    }
+
+    /**
+     * Check whether a condition yields "true". If not, the "txt" is interpreted
+     * as a printf/SLF4J format string and combined with the argument to form
+     * the error message in the thrown CheckFailedException.
+     */
+
+    public static void isTrue(boolean x, String txt, Object arg) {
+        if (!x) {
+            throw new CheckFailedException(Formatter.formatForMe(txt, arg));
+        }
+    }
+
+    /**
+     * Check whether a condition yields "true". If not, the "txt" is interpreted
+     * as a printf/SLF4J format string and combined with the arguments to form
+     * the error message in the thrown CheckFailedException.
+     */
+
+    public static void isTrue(boolean x, String txt, Object arg1, Object arg2) {
+        if (!x) {
+            throw new CheckFailedException(Formatter.formatForMe(txt, arg1, arg2));
+        }
+    }
+
+    /**
+     * Check whether a condition yields "true". If not, the "txt" is interpreted
+     * as a printf/SLF4J format string and combined with the arguments to form
+     * the error message in the thrown CheckFailedException.
+     */
+
+    public static void isTrue(boolean x, String txt, Object arg1, Object arg2, Object arg3) {
+        if (!x) {
+            throw new CheckFailedException(Formatter.formatForMe(txt, arg1, arg2, arg3));
+        }
+    }
+
+    /**
+     * Helper
+     */
+
+    private static Object[] recopyArray(Object arg1, Object arg2, Object arg3, Object[] args) {
+        int newLength = ((args == null) ? 0 : args.length) + 3;
+        Object[] newArray = new Object[newLength];
+        newArray[0] = arg1;
+        newArray[1] = arg2;
+        newArray[2] = arg3;
+        if (args != null) {
+            int j = 3;
+            for (int i = 0; i < args.length; i++) {
+                newArray[j] = args[i];
+                j++;
+            }
+        }
+        return newArray;
+    }
+
+    /**
+     * Check whether a condition yields "true". If not, the "txt" is interpreted
+     * as a printf/SLF4J format string and combined with the varargs to form the
+     * error message in the thrown CheckFailedException.
+     */
+
+    public static void isTrue(boolean x, String txt, Object arg1, Object arg2, Object arg3, Object... args) {
+        if (!x) {
+            throw new CheckFailedException(Formatter.formatForMe(txt, recopyArray(arg1, arg2, arg3, args)));
         }
         if (formatterAlwaysOn) {
-            System.err.println(Formatter.formatForMe(innocuousText + txt, args));
+            System.err.println(Formatter.formatForMe(innocuousText + txt, recopyArray(arg1, arg2, arg3, args)));
         }
     }
+    
+    
+    
+    
+    
 
     /**
-     * Check whether a condition yields "false". If yes, the "txt" is interpreted as a printf/SLF4J format
-     * string and combined with the varargs to form the error message in the thrown CheckFailedException.
+     * Check whether a condition yields "false". If yes, the "txt" is
+     * interpreted as a printf/SLF4J format string and combined with the varargs
+     * to form the error message in the thrown CheckFailedException.
      */
 
     public static void isFalse(boolean x, String txt, Object... args) {
@@ -189,12 +303,13 @@ public class Check {
         }
         if (formatterAlwaysOn) {
             System.err.println(Formatter.formatForMe(innocuousText + txt, args));
-        }        
+        }
     }
 
     /**
-     * Just throw. The "txt" is interpreted as a printf/SLF4J format
-     * string and combined with the varargs to form the error message in the thrown CheckFailedException.
+     * Just throw. The "txt" is interpreted as a printf/SLF4J format string and
+     * combined with the varargs to form the error message in the thrown
+     * CheckFailedException.
      */
 
     public static void fail(String txt, Object... args) {
@@ -202,10 +317,11 @@ public class Check {
     }
 
     /**
-     * This is used in places that are not supposed to be traversed, e.g. "defaults"
-     * of switch statements. Actually throws "Error" instead of "Exception" as 
-     * calling this indicates a program error that needs code fixing presto. This will
-     * most probably kill the thread or the whole process. 
+     * This is used in places that are not supposed to be traversed, e.g.
+     * "defaults" of switch statements. Actually throws "Error" instead of
+     * "Exception" as calling this indicates a program error that needs code
+     * fixing presto. This will most probably kill the thread or the whole
+     * process.
      */
 
     public static void cannotHappen() {
@@ -213,10 +329,11 @@ public class Check {
     }
 
     /**
-     * This is used in places that are not supposed to be traversed, e.g. "defaults"
-     * of switch statements. Actually throws "Error" instead of "Exception" as 
-     * calling this indicates a program error that needs code fixing presto. This will
-     * most probably kill the thread or the whole process. 
+     * This is used in places that are not supposed to be traversed, e.g.
+     * "defaults" of switch statements. Actually throws "Error" instead of
+     * "Exception" as calling this indicates a program error that needs code
+     * fixing presto. This will most probably kill the thread or the whole
+     * process.
      */
 
     public static void cannotHappen(String txt) {
@@ -224,10 +341,11 @@ public class Check {
     }
 
     /**
-     * This is used in places that are not supposed to be traversed, e.g. "defaults"
-     * of switch statements. Actually throws "Error" instead of "Exception" as 
-     * calling this indicates a program error that needs code fixing presto. This will
-     * most probably kill the thread or the whole process. 
+     * This is used in places that are not supposed to be traversed, e.g.
+     * "defaults" of switch statements. Actually throws "Error" instead of
+     * "Exception" as calling this indicates a program error that needs code
+     * fixing presto. This will most probably kill the thread or the whole
+     * process.
      */
 
     public static void cannotHappen(String txt, Throwable cause) {
@@ -235,10 +353,11 @@ public class Check {
     }
 
     /**
-     * This is used in places that are not supposed to be traversed, e.g. "defaults"
-     * of switch statements. Actually throws "Error" instead of "Exception" as 
-     * calling this indicates a program error that needs code fixing presto. This will
-     * most probably kill the thread or the whole process. 
+     * This is used in places that are not supposed to be traversed, e.g.
+     * "defaults" of switch statements. Actually throws "Error" instead of
+     * "Exception" as calling this indicates a program error that needs code
+     * fixing presto. This will most probably kill the thread or the whole
+     * process.
      */
 
     public static void cannotHappen(Throwable cause) {
@@ -246,10 +365,11 @@ public class Check {
     }
 
     /**
-     * This is used in places that are not supposed to be traversed, e.g. "defaults"
-     * of switch statements. Actually throws "Error" instead of "Exception" as 
-     * calling this indicates a program error that needs code fixing presto. This will
-     * most probably kill the thread or the whole process. 
+     * This is used in places that are not supposed to be traversed, e.g.
+     * "defaults" of switch statements. Actually throws "Error" instead of
+     * "Exception" as calling this indicates a program error that needs code
+     * fixing presto. This will most probably kill the thread or the whole
+     * process.
      */
 
     public static void cannotHappen(String txt, Object... args) {
@@ -257,9 +377,8 @@ public class Check {
     }
 
     /**
-     * Check that object "obj" is an instance of class "clazz". 
-     * Passing "null" as either "obj" or "clazz" will result in an 
-     * IllegalArgumentException.
+     * Check that object "obj" is an instance of class "clazz". Passing "null"
+     * as either "obj" or "clazz" will result in an IllegalArgumentException.
      */
 
     public static void notNullAndInstanceOf(Object x, String name, Class<?> clazz) {
@@ -275,11 +394,11 @@ public class Check {
     }
 
     /**
-     * Check that object "obj" is an instance of class "clazz". 
-     * Passing "null" as either "obj" or "clazz" will result in an 
-     * IllegalArgumentException. The "txt" is interpreted as a printf/SLF4J 
-     * format string and combined with the varargs to form the error message in
-     * the thrown CheckFailedException.
+     * Check that object "obj" is an instance of class "clazz". Passing "null"
+     * as either "obj" or "clazz" will result in an IllegalArgumentException.
+     * The "txt" is interpreted as a printf/SLF4J format string and combined
+     * with the varargs to form the error message in the thrown
+     * CheckFailedException.
      */
 
     public static void notNullAndInstanceOf(Object x, String name, Class<?> clazz, String txt, Object... args) {
@@ -294,7 +413,7 @@ public class Check {
         }
         if (formatterAlwaysOn) {
             System.err.println(Formatter.formatForMe(innocuousText + txt, args));
-        }        
+        }
     }
 
     /**
@@ -363,7 +482,19 @@ public class Check {
     }
 
     /**
-     * Check that 'value' is in the given range [lowestAllowed,highestAllowed]. Throw CheckFailedException
+     * This is a specialized check for database retrieval, it throws
+     * "UnexpectedDataException", a subclass of RuntimeException
+     */
+
+    public static void storeFieldNotNull(Object x, String name) {
+        if (x == null) {
+            throw new UnexpectedDataException("Field '" + name + "' has (null) content, which should not happen");
+        }
+    }
+
+    /**
+     * Check that 'value' is in the given range [lowestAllowed,highestAllowed].
+     * Throw CheckFailedException
      */
 
     public static void inRange(int value, String name, int lowestAllowed, int highestAllowed) {
@@ -373,7 +504,8 @@ public class Check {
     }
 
     /**
-     * Check that 'value' is in the given range [lowestAllowed,highestAllowed]. Throw CheckFailedException
+     * Check that 'value' is in the given range [lowestAllowed,highestAllowed].
+     * Throw CheckFailedException
      */
 
     public static void inRange(long value, String name, long lowestAllowed, long highestAllowed) {
@@ -385,30 +517,31 @@ public class Check {
     /**
      * Check whether assertions are "on"
      */
-    
+
     private static boolean isAssertionsOn() {
-        boolean assertionsAreOn = false;       
-        // the next instruction assigns true to assertionsAreOn only if assertions are on!
-        assert (assertionsAreOn=true) == true; 
+        boolean assertionsAreOn = false;
+        // the next instruction assigns true to assertionsAreOn only if
+        // assertions are on!
+        assert (assertionsAreOn = true) == true;
         return assertionsAreOn;
     }
 
     /**
      * This call is used when "validate()" is called on structures that have it.
      * The method looks for a parameterless validate() method and invokes it.
-     * This method does not care for whether assert is set and throws CheckFailedException 
-     * instead of AssertionError. 
+     * This method does not care for whether assert is set and throws
+     * CheckFailedException instead of AssertionError.
      */
-    
+
     public static void validateIt(Object obj) {
-        validateIt(obj,false,false);
+        validateIt(obj, false, false);
     }
-    
+
     /**
      * This call is used when "validate()" is called on structures that have it.
-     * The method looks for a parameterless validate() method and invokes it. 
+     * The method looks for a parameterless validate() method and invokes it.
      */
-   
+
     public static void validateIt(Object obj, boolean dependsOnAssert, boolean yieldsAssertionError) {
         if (obj == null) {
             throw new CheckFailedException("The passed object is (null), cannot validate it");
@@ -420,58 +553,59 @@ public class Check {
             return;
         }
         //
-        // Get the method "validate()", return if it does not exist. The return parameter is not interesting
+        // Get the method "validate()", return if it does not exist. The return
+        // parameter is not interesting
         //
         Method m = null;
         try {
-            m = obj.getClass().getMethod("validate", (Class<?>[])null);
-        }
-        catch (NoSuchMethodException exe) {
+            m = obj.getClass().getMethod("validate", (Class<?>[]) null);
+        } catch (NoSuchMethodException exe) {
             // Why the brutal throw, Java? Ok, do nothing and return at once
             return;
         }
-        assert m!=null;
+        assert m != null;
         //
-        // Invoke the method "validate()". This may generate AssertionError or a softer Exception
+        // Invoke the method "validate()". This may generate AssertionError or a
+        // softer Exception
         //
         Object res = null;
         Throwable tlow = null; // may contain more info
         try {
             res = m.invoke(obj);
-        }
-        catch (IllegalAccessException exe) {
+        } catch (IllegalAccessException exe) {
             // Possible the class is is not public, we are ok with that
-            System.err.println("IllegalAccessException while calling validate() of " +  obj.getClass().getName());
+            System.err.println("IllegalAccessException while calling validate() of " + obj.getClass().getName());
             return;
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
             tlow = t;
         }
         //
-        // So what's up? If a Throwable was thrown or validation said "FALSE", assume the game's up
+        // So what's up? If a Throwable was thrown or validation said "FALSE",
+        // assume the game's up
         //
         if (tlow != null || Boolean.FALSE.equals(res)) {
-            // Should this yield an AssertionError or a more harmless CheckFailedException? 
-            // The CheckFailedException is preferred, but the caller may change that.
+            // Should this yield an AssertionError or a more harmless
+            // CheckFailedException?
+            // The CheckFailedException is preferred, but the caller may change
+            // that.
             String msg = "Validation of object of type '" + obj.getClass().getName() + "' failed";
             if (yieldsAssertionError) {
                 throw new AssertionError(msg);
-            }
-            else {
+            } else {
                 if (tlow == null) {
                     throw new CheckFailedException(msg);
-                }
-                else {
+                } else {
                     throw new CheckFailedException(msg, tlow);
                 }
             }
         }
     }
-    
+
     /**
-     * Helper for implications; unfortunately the consequent cannot be lazily evaluated :-(
+     * Helper for implications; unfortunately the consequent cannot be lazily
+     * evaluated :-(
      */
-    
+
     public static boolean imply(boolean antecedent, boolean consequent) {
         return !antecedent || consequent;
     }
