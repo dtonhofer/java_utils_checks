@@ -63,12 +63,8 @@ import java.util.Map;
  * 2013.02.21 - Added "imply()" 
  * 2013.06.21 - Renamed "_check" to "Check" for consistency
  * 2014.01.19 - Added notNullAndLargerThanZero()
- * 2014.01.21 - Reorganized methods 
- * 
- * TODO: 
- * 
- * Additional methods taking one or two values before the varargs method
- * is used, for efficiency purpose.
+ * 2014.01.21 - Reorganized methods, special cases 1..3 args for 'isTrue()'
+ *              and 'isFalse()' added 
  ******************************************************************************/
 
 public class Check {
@@ -194,8 +190,7 @@ public class Check {
     }
 
     /**
-     * Check whether a condition yields "true", throw CheckFailedException if
-     * not.
+     * Check whether a condition yields "true", throw CheckFailedException if not.
      */
 
     public static void isTrue(boolean x) {
@@ -205,11 +200,30 @@ public class Check {
     }
 
     /**
-     * Check whether a condition yields "true", throw CheckFailedException if
-     * not.
+     * Check whether a condition yields "false", throw CheckFailedException if not.
+     */
+
+    public static void isFalse(boolean x) {
+        if (!x) {
+            throw new CheckFailedException("Test for 'false' fails (no further indication or text)");
+        }
+    }
+
+    /**
+     * Check whether a condition yields "true", throw CheckFailedException if not.
      */
 
     public static void isTrue(boolean x, String txt) {
+        if (!x) {
+            throw new CheckFailedException(txt);
+        }
+    }
+
+    /**
+     * Check whether a condition yields "false", throw CheckFailedException if not.
+     */
+
+    public static void isFalse(boolean x, String txt) {
         if (!x) {
             throw new CheckFailedException(txt);
         }
@@ -228,12 +242,36 @@ public class Check {
     }
 
     /**
+     * Check whether a condition yields "false". If not, the "txt" is interpreted
+     * as a printf/SLF4J format string and combined with the argument to form
+     * the error message in the thrown CheckFailedException.
+     */
+
+    public static void isFalse(boolean x, String txt, Object arg) {
+        if (!x) {
+            throw new CheckFailedException(Formatter.formatForMe(txt, arg));
+        }
+    }
+
+    /**
      * Check whether a condition yields "true". If not, the "txt" is interpreted
      * as a printf/SLF4J format string and combined with the arguments to form
      * the error message in the thrown CheckFailedException.
      */
 
     public static void isTrue(boolean x, String txt, Object arg1, Object arg2) {
+        if (!x) {
+            throw new CheckFailedException(Formatter.formatForMe(txt, arg1, arg2));
+        }
+    }
+
+    /**
+     * Check whether a condition yields "false". If not, the "txt" is interpreted
+     * as a printf/SLF4J format string and combined with the arguments to form
+     * the error message in the thrown CheckFailedException.
+     */
+
+    public static void isFalse(boolean x, String txt, Object arg1, Object arg2) {
         if (!x) {
             throw new CheckFailedException(Formatter.formatForMe(txt, arg1, arg2));
         }
@@ -252,23 +290,15 @@ public class Check {
     }
 
     /**
-     * Helper
+     * Check whether a condition yields "false". If not, the "txt" is interpreted
+     * as a printf/SLF4J format string and combined with the arguments to form
+     * the error message in the thrown CheckFailedException.
      */
 
-    private static Object[] recopyArray(Object arg1, Object arg2, Object arg3, Object[] args) {
-        int newLength = ((args == null) ? 0 : args.length) + 3;
-        Object[] newArray = new Object[newLength];
-        newArray[0] = arg1;
-        newArray[1] = arg2;
-        newArray[2] = arg3;
-        if (args != null) {
-            int j = 3;
-            for (int i = 0; i < args.length; i++) {
-                newArray[j] = args[i];
-                j++;
-            }
+    public static void isFalse(boolean x, String txt, Object arg1, Object arg2, Object arg3) {
+        if (!x) {
+            throw new CheckFailedException(Formatter.formatForMe(txt, arg1, arg2, arg3));
         }
-        return newArray;
     }
 
     /**
@@ -286,23 +316,18 @@ public class Check {
         }
     }
     
-    
-    
-    
-    
-
     /**
-     * Check whether a condition yields "false". If yes, the "txt" is
-     * interpreted as a printf/SLF4J format string and combined with the varargs
-     * to form the error message in the thrown CheckFailedException.
+     * Check whether a condition yields "false". If not, the "txt" is interpreted
+     * as a printf/SLF4J format string and combined with the varargs to form the
+     * error message in the thrown CheckFailedException.
      */
 
-    public static void isFalse(boolean x, String txt, Object... args) {
-        if (x) {
-            throw new CheckFailedException(Formatter.formatForMe(txt, args));
+    public static void isFalse(boolean x, String txt, Object arg1, Object arg2, Object arg3, Object... args) {
+        if (!x) {
+            throw new CheckFailedException(Formatter.formatForMe(txt, recopyArray(arg1, arg2, arg3, args)));
         }
         if (formatterAlwaysOn) {
-            System.err.println(Formatter.formatForMe(innocuousText + txt, args));
+            System.err.println(Formatter.formatForMe(innocuousText + txt, recopyArray(arg1, arg2, arg3, args)));
         }
     }
 
@@ -608,5 +633,25 @@ public class Check {
 
     public static boolean imply(boolean antecedent, boolean consequent) {
         return !antecedent || consequent;
+    }
+    
+    /**
+     * Helper
+     */
+
+    private static Object[] recopyArray(Object arg1, Object arg2, Object arg3, Object[] args) {
+        int newLength = ((args == null) ? 0 : args.length) + 3;
+        Object[] newArray = new Object[newLength];
+        newArray[0] = arg1;
+        newArray[1] = arg2;
+        newArray[2] = arg3;
+        if (args != null) {
+            int j = 3;
+            for (int i = 0; i < args.length; i++) {
+                newArray[j] = args[i];
+                j++;
+            }
+        }
+        return newArray;
     }
 }
