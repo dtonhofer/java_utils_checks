@@ -1,6 +1,8 @@
-package com.mplify.checkers;
+package com.mplify.checkers.tests;
 
 import org.junit.Test;
+
+import com.mplify.checkers.Formatter;
 
 import static org.junit.Assert.*;
 
@@ -19,10 +21,10 @@ import static org.junit.Assert.*;
  ******************************************************************************/
 
 @SuppressWarnings("static-method")
-public class TestCaseFormatter {
+public class JUnit_Formatter {
 
     @Test
-    public void testPlaceholderReplacement() {
+    public void testSlf4jPlaceholderReplacement() {
         assertEquals("",Formatter.replaceSlf4JPlaceholders(""));
         assertEquals("%s",Formatter.replaceSlf4JPlaceholders("{}"));
         assertEquals("%s%s",Formatter.replaceSlf4JPlaceholders("{}{}"));
@@ -39,7 +41,7 @@ public class TestCaseFormatter {
     }
     
     @Test
-    public void testPlaceholderReplacementWithExtras() {
+    public void testSlf4jPlaceholderReplacementWithBackslashEscapes() {
         assertEquals("xy{}z",Formatter.replaceSlf4JPlaceholders("xy\\{}z"));
         assertEquals("xyz{}",Formatter.replaceSlf4JPlaceholders("xyz\\{}"));
         assertEquals("xy\\%sz",Formatter.replaceSlf4JPlaceholders("xy\\\\{}z"));
@@ -47,7 +49,7 @@ public class TestCaseFormatter {
     }
 
     @Test
-    public void testPlaceholderReplacementWithExtras2() {
+    public void testSlf4jPlaceholderReplacementWithPercentages() {
         assertEquals("xy%%%sz",Formatter.replaceSlf4JPlaceholders("xy%{}z"));
     }
 }

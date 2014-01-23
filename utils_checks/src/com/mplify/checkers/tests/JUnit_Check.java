@@ -1,10 +1,29 @@
-package com.mplify.checkers;
+package com.mplify.checkers.tests;
 
 import org.junit.Test;
+
+import com.mplify.checkers.Check;
+import com.mplify.checkers.CheckFailedException;
+
 import static org.junit.Assert.*;
 
-public class JUnitStuff {
+/* 34567890123456789012345678901234567890123456789012345678901234567890123456789
+ * *****************************************************************************
+ * Copyright (c) 2013, Q-LEAP S.A.
+ *                     14 rue Aldringen
+ *                     L-1118 Luxembourg
+ *
+ * Released under the MIT License: http://opensource.org/licenses/MIT
+ *******************************************************************************
+ *******************************************************************************
+ * A test case!
+ * 
+ * 2014.01.22 - Created to test the correct behaviour of "Check" methods
+ ******************************************************************************/
 
+@SuppressWarnings("static-method")
+public class JUnit_Check {
+    
     @Test
     public void testIsTrue_noMessage_andTrue() {
         Check.isTrue(true);
@@ -63,11 +82,14 @@ public class JUnitStuff {
         }
     }
 
+
+    @SuppressWarnings("boxing")
     @Test
     public void testIsTrue_oneParameterMessage_andTrue() {
         Check.isTrue(true, "one placeholder: {}", Integer.MAX_VALUE);
     }
 
+    @SuppressWarnings("boxing")
     @Test
     public void testIsTrue_oneParameterMessage() {
         try {
@@ -77,6 +99,7 @@ public class JUnitStuff {
         }
     }
 
+    @SuppressWarnings("boxing")
     @Test
     public void testIsTrue_oneParameterMessageThatIsNull() {
         try {
@@ -86,6 +109,7 @@ public class JUnitStuff {
         }
     }
 
+    @SuppressWarnings("boxing")
     @Test
     public void testIsTrue_oneParameterMessageWithTwoPlaceholders() {
         try {
@@ -95,6 +119,7 @@ public class JUnitStuff {
         }
     }
 
+    @SuppressWarnings("boxing")
     @Test
     public void testIsTrue_oneParameterMessageWithTwoPlaceholdersOfDecimalType() {
         try {

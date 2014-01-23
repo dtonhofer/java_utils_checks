@@ -13,17 +13,23 @@ import java.util.regex.Pattern;
  *******************************************************************************
  *******************************************************************************
  * Formatting of messages on behalf of "Check". The "formatString" can use the
- * SLF4J placeholder "{}" or the print-style placeholders from java.util.Formatting 
+ * SLF4J placeholder "{}" or the print-style placeholders from 
+ * java.util.Formatting 
  * 
- * See http://slf4j.org/faq.html#string_contents 
+ * See 
  * 
- * See http://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html 
+ * http://slf4j.org/faq.html#string_contents 
  * 
- * 2013.11.18 - Extend "formatForMeLow" so that it accepts the SLF4J 
- *              placeholder '{}'
+ * See 
+ * 
+ * http://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html 
+ * 
+ * 2013.11.18 - Extended "formatForMeLow" so that it accepts the SLF4J 
+ *              placeholder '{}', which is more generic and easier
+ *              to use than '%s '%d' etc.
  ******************************************************************************/
 
-class Formatter {
+public class Formatter {
 
     /**
      * Create a "last ditch effort" string to format arguments, after everything
@@ -55,9 +61,9 @@ class Formatter {
      * the formatting string %s
      */
 
-    static Pattern PATTERN = Pattern.compile("\\{\\}"); // access is threadsafe
+    private static Pattern PATTERN = Pattern.compile("\\{\\}"); // access is threadsafe
 
-    static String replaceSlf4JPlaceholders(String formatStringIn) {
+    static public String replaceSlf4JPlaceholders(String formatStringIn) {
         assert formatStringIn != null;
         if (formatStringIn.indexOf("{}") >= 0) {
             String[] splits = PATTERN.split(formatStringIn, -1);
