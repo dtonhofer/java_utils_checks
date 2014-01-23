@@ -17,7 +17,7 @@ For more complete/elegant approaches, see the Wikipedia entry for [Design by Con
 
 *For Groovy:*
 
-* [GContracts](andresteingress/gcontracts/wiki)
+* [GContracts](https://github.com/andresteingress/gcontracts/wiki)
 
 ## How
 
@@ -28,12 +28,18 @@ of arguments passed to methods. Messages formatted in
 
 ## Exceptions thrown
 
-All of the methods throw `CheckFailedException` derived from `RuntimeException`, instead of `IllegalArgumentException` and `IllegalStateException` or even an `Error`. Thus:
+All of the methods throw `CheckFailedException` derived from [`RuntimeException`](http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html), instead of:
+
+* An [`IllegalArgumentException`](http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html), which seems appropriate for argument checks only ;
+* An [`IllegalStateException`](http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html), for which it is difficult to say when it is appropriate ; 
+* An [`Error`](http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html), which should terminate the thread and possibly the JVM, and which it is inappropriate to handle (in particular, [`AssertionError`](http://docs.oracle.com/javase/7/docs/api/java/lang/AssertionError.html) falls into this category)
+ 
+Therefore:
 
 * You don't need to declare a "throws" clause on the methods all along the call stack ; 
 * You can catch and handle the exception if you need to and you are in a place where handling it makes sense ;
-* It is clear that it comes from a "check" call ; 
-* It is not considered as unresolvable as an [`Error`](http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html)
+* It is clear that it comes from a "Check" method ; 
+* It is not considered as unresolvable as an `Error`.
 
 ## Example
 
