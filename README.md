@@ -1,10 +1,8 @@
-java_utils_checks
-=================
+# java_utils_checks
 
-What
-----
+## What
 
-Java utility classes to perform simple runtime checks, similarly to what is done with Java's "assert" keyword.
+_Java utility classes to perform simple runtime checks, similarly to what is done with Java's "assert" keyword._
 
 This is practically the same as [Google Guava's "Preconditions"](http://code.google.com/p/guava-libraries/wiki/PreconditionsExplained).
 
@@ -25,20 +23,18 @@ For Groovy:
 
 For Groovy in particular, see also the [Groovy Power Assert](spot.com/2009/05/new-power-assertions-in-groovy.html).
 
-See also:
+Further things of interest:
 
 * [argcheck](http://who-t.blogspot.com/2013/12/argcheck-assert-on-steroids.html) - asserts for C on steroids
 
-How
----
+## How
 
 The class `com.mplify.Check` exports several static methods to perform common checks, in particular checks
 of arguments passed to methods. Messages formatted in 
 [printf style](http://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html) or [SLF4J style](http://slf4j.org/faq.html#logging_performance)
 (i.e. using '{}' as placeholder) can be passed to these methods.
 
-Exceptions thrown
------------------
+## Exceptions thrown
 
 All of the methods throw `CheckFailedException` derived from `RuntimeException`, instead of `IllegalArgumentException` and `IllegalStateException` or even an `Error`. Thus:
 
@@ -47,20 +43,36 @@ All of the methods throw `CheckFailedException` derived from `RuntimeException`,
 * It is clear that it comes from a "check" call ; 
 * It is not considered as unresolvable as an [`Error`](http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html)
 
-Loading into Eclipse
---------------------
+## Example
+
+Code written if you are feeling lazy and don't care that `assert` should not be used to check parameters. `assert` will throw a a nasty `Error` instead of a `RuntimeException` if one of the checks fail, and may well be switched off at runtime:
+
+    public Map<SamId,SamAddressData> build(List<SamAddress> sal, AdminStructure ads, Integer idx) {
+        assert sal!=null && !sal.isEmpty() : "SamAddress list is null or empty";
+        assert ads!=null : "AdminStructure is null";
+        assert idx!=null && idx > 0 : "Integer index is " + idx;
+        assert ads.knowsAbout(idx) : "AdminStructure does not know about index " + idx;
+        ...
+    
+Code written using `Check` methods. You will get catchable `CheckFailedException` and the checks will always be performed:
+
+    public Map<SamId,SamAddressData> build(List<SamAddress> sal, AdminStructure ads, Integer idx) {
+        Check.notNullAndNotEmpty(sal,"SamAddress list");
+        Check.notNull(ads,"AdminStructure");
+        Check.notNullAndLargerThanZero(idx,"Integer index");
+        Check.isTrue(ads.knowsAbout(idx),"AdminStructure does not know about index {}", idx);
+        ....
+
+## Loading into Eclipse IDE
 
 The directory "utils_checks" in the git repository is an Eclipse project, so everything can be pulled into Eclipse 
 directly via "git repository exploring".
 
-Improvements
-------------
+## Ideas for Improvements
 
-Using [paranamer](https://github.com/paul-hammant/paranamer) to determine parameter names at runtime.
+* Use [paranamer](https://github.com/paul-hammant/paranamer) to determine parameter names at runtime.
 
-License
--------
+## License
 
 Released by M-PLIFY S.A. in January 2013 under the [MIT License](http://opensource.org/licenses/MIT) 
-
 
