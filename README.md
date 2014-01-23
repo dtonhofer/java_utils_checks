@@ -26,6 +26,7 @@ For Groovy in particular, see also the [Groovy Power Assert](spot.com/2009/05/ne
 Further things of interest:
 
 * [argcheck](http://who-t.blogspot.com/2013/12/argcheck-assert-on-steroids.html) - asserts for C on steroids
+* [A historical perspective on runtime assertion checking in software development](http://discovery.ucl.ac.uk/4991/1/4991.pdf): _Lori A. Clarke, und David S. Rosenblum. ACM SIGSOFT Software Engineering Notes 31(3):25-37 (2006)_
 
 ## How
 
