@@ -21,7 +21,7 @@ For Groovy:
 
 * [GContracts for Groovy](http://gcontracts.org/)
 
-For Groovy in particular, see also the [Groovy Power Assert](spot.com/2009/05/new-power-assertions-in-groovy.html).
+For Groovy in particular, see also the [Groovy Power Assert](http://dontmindthelanguage.wordpress.com/2009/12/11/groovy-1-7-power-assert/).
 
 
 ## Further reading
