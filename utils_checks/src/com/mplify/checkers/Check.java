@@ -78,6 +78,7 @@ public class Check {
      * verifier demands a proper return after the call.
      * 
      * Insert
+     * 
      * "throw new Error(Check.NEVER_GET_HERE_BUT_NEEDED_FOR_KEEPING_COMPILER_HAPPY);"
      * 
      * in that case to tell the compiler who's boss.
@@ -86,21 +87,21 @@ public class Check {
     public static final String NEVER_GET_HERE_BUT_NEEDED_FOR_KEEPING_COMPILER_HAPPY = "Never get here but needed for keeping compiler happy";
 
     /**
-     * Check that object "x" is not null, throw CheckFailedException if it is.
+     * Check that object "x" is not null
      */
 
     public static void notNull(Object x, String name) {
         if (x == null) {
             if (name == null) {
-                throw new CheckFailedException("The unnamed object is (null)");
+                throw new CheckFailedException("The unnamed Object is (null)");
             } else {
-                throw new CheckFailedException("The object '" + name + "' is (null)");
+                throw new CheckFailedException("The Object '" + name + "' is (null)");
             }
         }
     }
 
     /**
-     * Check that object "x" is not null, throw CheckFailedException if it is.
+     * Check that object "x" is not null
      */
 
     public static void notNull(Object x) {
@@ -108,8 +109,9 @@ public class Check {
     }
 
     /**
-     * Check that Object "x" is not null and contains elements, throw
-     * CheckFailedException otherwise.
+     * Check that Object "x" is not null and "contains elements" (the meaning of that
+     * depends on the actual type of "x": Collection, Map or CharSequence are currently 
+     * acepted, with the evident meaning of "empty")
      */
 
     @SuppressWarnings("rawtypes")
@@ -131,22 +133,21 @@ public class Check {
                     throw new CheckFailedException("The Map '" + name + "' is empty");
                 }
             }
-        } else if (x instanceof String) {
-            if (((String) x).isEmpty()) {
+        } else if (x instanceof CharSequence) {
+            if (((CharSequence) x).length() == 0) {
                 if (name == null) {
-                    throw new CheckFailedException("The unnamed String is empty");
+                    throw new CheckFailedException("The unnamed CharSequence is empty");
                 } else {
-                    throw new CheckFailedException("The String '" + name + "' is empty");
+                    throw new CheckFailedException("The CharSequence '" + name + "' is empty");
                 }
             }
         } else {
-            fail("The passed object of type " + x.getClass().getName() + " is not handled -- fix code!");
+            fail("The passed object of type '" + x.getClass().getName() + "' is not handled -- fix code!");
         }
     }
 
     /**
-     * Check that Object "x" is not null and contains elements, throw
-     * CheckFailedException otherwise.
+     * Check that Object "x" is not null and contains elements
      */
 
     public static void notNullAndNotEmpty(Object x) {
@@ -154,17 +155,16 @@ public class Check {
     }
 
     /**
-     * Check that String "x" is not null and contains stuff other than
-     * whitespace, throw CheckFailedException otherwise.
+     * Check that CharSequence "x" is not null and contains stuff other than whitespace
      */
 
-    public static void notNullAndNotOnlyWhitespace(String x, String name) {
+    public static void notNullAndNotOnlyWhitespace(CharSequence x, String name) {
         notNull(x, name);
-        if (x.isEmpty()) {
+        if (x.length() == 0) {
             if (name == null) {
-                throw new CheckFailedException("The unnamed String is empty");
+                throw new CheckFailedException("The unnamed CharSequence is empty");
             } else {
-                throw new CheckFailedException("The String '" + name + "' is empty");
+                throw new CheckFailedException("The CharSequence '" + name + "' is empty");
             }
         }
         int len = x.length();
@@ -174,15 +174,14 @@ public class Check {
             }
         }
         if (name == null) {
-            throw new CheckFailedException("The unnamed String is fully whitespace");
+            throw new CheckFailedException("The unnamed CharSequence contains only whitespace");
         } else {
-            throw new CheckFailedException("The String '" + name + "' is fully whitespace");
+            throw new CheckFailedException("The CharSequence '" + name + "' contains only whitespace");
         }
     }
 
     /**
-     * Check that String "x" is not null and contains stuff other than
-     * whitespace, throw CheckFailedException otherwise.
+     * Check that CharSequence "x" is not null and contains stuff other than whitespace
      */
 
     public static void notNullAndNotOnlyWhitespace(String x) {
@@ -190,7 +189,7 @@ public class Check {
     }
 
     /**
-     * Check whether a condition yields "true", throw CheckFailedException if not.
+     * Check whether a condition yields "true"
      */
 
     public static void isTrue(boolean x) {
@@ -200,17 +199,17 @@ public class Check {
     }
 
     /**
-     * Check whether a condition yields "false", throw CheckFailedException if not.
+     * Check whether a condition yields "false"
      */
 
     public static void isFalse(boolean x) {
-        if (!x) {
+        if (x) {
             throw new CheckFailedException("Test for 'false' fails (no further indication or text)");
         }
     }
 
     /**
-     * Check whether a condition yields "true", throw CheckFailedException if not.
+     * Check whether a condition yields "true"
      */
 
     public static void isTrue(boolean x, String txt) {
@@ -220,7 +219,7 @@ public class Check {
     }
 
     /**
-     * Check whether a condition yields "false", throw CheckFailedException if not.
+     * Check whether a condition yields "false"
      */
 
     public static void isFalse(boolean x, String txt) {
@@ -232,109 +231,100 @@ public class Check {
     /**
      * Check whether a condition yields "true". If not, the "txt" is interpreted
      * as a printf/SLF4J format string and combined with the argument to form
-     * the error message in the thrown CheckFailedException.
+     * the error message in the thrown exception
      */
 
     public static void isTrue(boolean x, String txt, Object arg) {
         if (!x) {
             throw new CheckFailedException(Formatter.formatForMe(txt, arg));
         }
+        if (formatterAlwaysOn) {
+            System.err.println(Formatter.formatForMe(innocuousText + txt, arg));
+        }
     }
 
     /**
      * Check whether a condition yields "false". If not, the "txt" is interpreted
      * as a printf/SLF4J format string and combined with the argument to form
-     * the error message in the thrown CheckFailedException.
+     * the error message in the thrown exception
      */
 
     public static void isFalse(boolean x, String txt, Object arg) {
         if (x) {
             throw new CheckFailedException(Formatter.formatForMe(txt, arg));
         }
+        if (formatterAlwaysOn) {
+            System.err.println(Formatter.formatForMe(innocuousText + txt, arg));
+        }
     }
 
     /**
      * Check whether a condition yields "true". If not, the "txt" is interpreted
-     * as a printf/SLF4J format string and combined with the arguments to form
-     * the error message in the thrown CheckFailedException.
+     * as a printf/SLF4J format string and combined with the argument to form
+     * the error message in the thrown exception
      */
 
     public static void isTrue(boolean x, String txt, Object arg1, Object arg2) {
         if (!x) {
             throw new CheckFailedException(Formatter.formatForMe(txt, arg1, arg2));
         }
+        if (formatterAlwaysOn) {
+            System.err.println(Formatter.formatForMe(innocuousText + txt, arg1, arg2));
+        }
     }
 
     /**
      * Check whether a condition yields "false". If not, the "txt" is interpreted
-     * as a printf/SLF4J format string and combined with the arguments to form
-     * the error message in the thrown CheckFailedException.
+     * as a printf/SLF4J format string and combined with the argument to form
+     * the error message in the thrown exception
      */
 
     public static void isFalse(boolean x, String txt, Object arg1, Object arg2) {
         if (x) {
             throw new CheckFailedException(Formatter.formatForMe(txt, arg1, arg2));
         }
-    }
-
-    /**
-     * Check whether a condition yields "true". If not, the "txt" is interpreted
-     * as a printf/SLF4J format string and combined with the arguments to form
-     * the error message in the thrown CheckFailedException.
-     */
-
-    public static void isTrue(boolean x, String txt, Object arg1, Object arg2, Object arg3) {
-        if (!x) {
-            throw new CheckFailedException(Formatter.formatForMe(txt, arg1, arg2, arg3));
-        }
-    }
-
-    /**
-     * Check whether a condition yields "false". If not, the "txt" is interpreted
-     * as a printf/SLF4J format string and combined with the arguments to form
-     * the error message in the thrown CheckFailedException.
-     */
-
-    public static void isFalse(boolean x, String txt, Object arg1, Object arg2, Object arg3) {
-        if (x) {
-            throw new CheckFailedException(Formatter.formatForMe(txt, arg1, arg2, arg3));
+        if (formatterAlwaysOn) {
+            System.err.println(Formatter.formatForMe(innocuousText + txt, arg1, arg2));
         }
     }
 
     /**
      * Check whether a condition yields "true". If not, the "txt" is interpreted
-     * as a printf/SLF4J format string and combined with the varargs to form the
-     * error message in the thrown CheckFailedException.
+     * as a printf/SLF4J format string and combined with the argument to form
+     * the error message in the thrown exception. Note that testing shows that there
+     * is practically no difference in duration between vararged and non-vararged calls,
+     * so we stop at 2 objects + varargs.
      */
 
-    public static void isTrue(boolean x, String txt, Object arg1, Object arg2, Object arg3, Object... args) {
+    public static void isTrue(boolean x, String txt, Object arg1, Object arg2, Object... args) {
         if (!x) {
-            throw new CheckFailedException(Formatter.formatForMe(txt, recopyArray(arg1, arg2, arg3, args)));
+            throw new CheckFailedException(Formatter.formatForMe(txt, recopyArray(arg1, arg2, args)));
         }
         if (formatterAlwaysOn) {
-            System.err.println(Formatter.formatForMe(innocuousText + txt, recopyArray(arg1, arg2, arg3, args)));
+            System.err.println(Formatter.formatForMe(innocuousText + txt, recopyArray(arg1, arg2, args)));
         }
     }
-    
+
     /**
      * Check whether a condition yields "false". If not, the "txt" is interpreted
      * as a printf/SLF4J format string and combined with the varargs to form the
-     * error message in the thrown CheckFailedException.
+     * the error message in the thrown exception. Note that testing shows that there
+     * is practically no difference in duration between vararged and non-vararged calls,
+     * so we stop at 2 objects + varargs.
      */
 
-    public static void isFalse(boolean x, String txt, Object arg1, Object arg2, Object arg3, Object... args) {
+    public static void isFalse(boolean x, String txt, Object arg1, Object arg2, Object... args) {
         if (x) {
-            throw new CheckFailedException(Formatter.formatForMe(txt, recopyArray(arg1, arg2, arg3, args)));
+            throw new CheckFailedException(Formatter.formatForMe(txt, recopyArray(arg1, arg2, args)));
         }
         if (formatterAlwaysOn) {
-            System.err.println(Formatter.formatForMe(innocuousText + txt, recopyArray(arg1, arg2, arg3, args)));
+            System.err.println(Formatter.formatForMe(innocuousText + txt, recopyArray(arg1, arg2, args)));
         }
     }
 
     /**
      * Just throw. The "txt" is interpreted as a printf/SLF4J format string and
-     * combined with the varargs to form the error message in the thrown
-     * CheckFailedException.
+     * combined with the varargs to form the error message in the thrown exception.
      */
 
     public static void fail(String txt, Object... args) {
@@ -407,15 +397,7 @@ public class Check {
      */
 
     public static void notNullAndInstanceOf(Object x, String name, Class<?> clazz) {
-        if (clazz == null) {
-            throw new IllegalArgumentException("The comparison class to compare against object '" + name + "' is (null)");
-        }
-        if (x == null) {
-            throw new CheckFailedException("The object '" + name + "' is (null)");
-        }
-        if (!clazz.isAssignableFrom(x.getClass())) {
-            throw new CheckFailedException("The object '" + name + "' is not of class " + clazz.getName() + " but of class " + x.getClass().getName());
-        }
+        notNullAndInstanceOf(x, name, clazz, null, (Object[]) null);
     }
 
     /**
@@ -428,13 +410,18 @@ public class Check {
 
     public static void notNullAndInstanceOf(Object x, String name, Class<?> clazz, String txt, Object... args) {
         if (clazz == null) {
-            throw new IllegalArgumentException("The comparison class to compare against object '" + name + "' is (null)");
+            throw new IllegalArgumentException("The comparison class to compare against Object '" + name + "' is (null)");
         }
         if (x == null) {
-            throw new CheckFailedException("The object '" + name + "' is (null)");
+            throw new CheckFailedException("The Object '" + name + "' is (null)");
         }
         if (!clazz.isAssignableFrom(x.getClass())) {
-            throw new CheckFailedException("The object '" + name + "' is not of class " + clazz.getName() + " but of class " + x.getClass().getName() + ": " + Formatter.formatForMe(txt, args));
+            String ps = "The Object '" + name + "' is not of class '" + clazz.getName() + "' but of class '" + x.getClass().getName() + "'";
+            if (args == null) {
+                throw new CheckFailedException(ps);
+            } else {
+                throw new CheckFailedException(ps + ": " + Formatter.formatForMe(txt, args));
+            }
         }
         if (formatterAlwaysOn) {
             System.err.println(Formatter.formatForMe(innocuousText + txt, args));
@@ -442,12 +429,16 @@ public class Check {
     }
 
     /**
+     * == Various special cases ==
+     */
+
+    /**
      * Is x > 0? Throw CheckFailedException if not
      */
 
     public static void largerThanZero(int x, String name) {
         if (x <= 0) {
-            throw new CheckFailedException("The object '" + name + "' is less than or equal to 0: " + x);
+            throw new CheckFailedException("The int '" + name + "' is less than or equal to 0: " + x);
         }
     }
 
@@ -458,7 +449,7 @@ public class Check {
     public static void nullOrElseLargerThanZero(Integer x, String name) {
         if (x != null) {
             if (x.intValue() <= 0) {
-                throw new CheckFailedException("The object '" + name + "' is less than or equal to 0: " + x);
+                throw new CheckFailedException("The Object '" + name + "' is less than or equal to 0: " + x);
             }
         }
     }
@@ -469,10 +460,10 @@ public class Check {
 
     public static void notNullAndLargerThanZero(Integer x, String name) {
         if (x == null) {
-            throw new CheckFailedException("The integer '" + name + "' is (null)");
+            throw new CheckFailedException("The Integer '" + name + "' is (null)");
         }
         if (x.intValue() <= 0) {
-            throw new CheckFailedException("The integer '" + name + "' is less than or equal to 0: " + x);
+            throw new CheckFailedException("The Integer '" + name + "' is less than or equal to 0: " + x);
         }
     }
 
@@ -482,9 +473,35 @@ public class Check {
 
     public static void largerOrEqualToZero(int x, String name) {
         if (x < 0) {
-            throw new CheckFailedException("The object '" + name + "' is smaller than 0: " + x);
+            throw new CheckFailedException("The Object '" + name + "' is smaller than 0: " + x);
         }
     }
+
+    /**
+     * Check that 'value' is in the given range [lowestAllowed,highestAllowed].
+     * Throw CheckFailedException
+     */
+
+    public static void inRange(int value, String name, int lowestAllowed, int highestAllowed) {
+        if (value < lowestAllowed || highestAllowed < value) {
+            throw new CheckFailedException("The integer '" + name + "' is out of range [" + lowestAllowed + "," + highestAllowed + "]: " + value);
+        }
+    }
+
+    /**
+     * Check that 'value' is in the given range [lowestAllowed,highestAllowed].
+     * Throw CheckFailedException
+     */
+
+    public static void inRange(long value, String name, long lowestAllowed, long highestAllowed) {
+        if (value < lowestAllowed || highestAllowed < value) {
+            throw new CheckFailedException("The long '" + name + "' is out of range [" + lowestAllowed + "," + highestAllowed + "]: " + value);
+        }
+    }
+
+    /**
+     * == Used for database fields ==
+     */
 
     /**
      * Special for fields read from the database. Throws UnexpectedDataException
@@ -518,26 +535,8 @@ public class Check {
     }
 
     /**
-     * Check that 'value' is in the given range [lowestAllowed,highestAllowed].
-     * Throw CheckFailedException
+     * == Extras ==
      */
-
-    public static void inRange(int value, String name, int lowestAllowed, int highestAllowed) {
-        if (value < lowestAllowed || highestAllowed < value) {
-            throw new CheckFailedException("The integer value '" + name + "' is out of range [" + lowestAllowed + "," + highestAllowed + "]: " + value);
-        }
-    }
-
-    /**
-     * Check that 'value' is in the given range [lowestAllowed,highestAllowed].
-     * Throw CheckFailedException
-     */
-
-    public static void inRange(long value, String name, long lowestAllowed, long highestAllowed) {
-        if (value < lowestAllowed || highestAllowed < value) {
-            throw new CheckFailedException("The long value '" + name + "' is out of range [" + lowestAllowed + "," + highestAllowed + "]: " + value);
-        }
-    }
 
     /**
      * Check whether assertions are "on"
@@ -634,17 +633,16 @@ public class Check {
     public static boolean imply(boolean antecedent, boolean consequent) {
         return !antecedent || consequent;
     }
-    
+
     /**
      * Helper
      */
 
-    private static Object[] recopyArray(Object arg1, Object arg2, Object arg3, Object[] args) {
-        int newLength = ((args == null) ? 0 : args.length) + 3;
+    private static Object[] recopyArray(Object arg1, Object arg2, Object[] args) {
+        int newLength = ((args == null) ? 0 : args.length) + 2;
         Object[] newArray = new Object[newLength];
         newArray[0] = arg1;
         newArray[1] = arg2;
-        newArray[2] = arg3;
         if (args != null) {
             int j = 3;
             for (int i = 0; i < args.length; i++) {

@@ -10,7 +10,7 @@ package com.mplify.checkers;
  *          under the MIT License: http://opensource.org/licenses/MIT  
  *******************************************************************************
  *******************************************************************************
- * Runtime Exception (i.e. no need to declare it) thrown by the "checks"
+ * Runtime Exception (so no need to declare it) thrown by "check" methods.
  ******************************************************************************/
 
 @SuppressWarnings("serial")

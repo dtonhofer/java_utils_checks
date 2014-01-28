@@ -53,12 +53,16 @@ public class Formatter {
 
     /**
      * If "formatStr" contains the SLF4J placeholder "{}", replace that
-     * placeholder with "%s" This is fraught with special cases.... \\{} ---->
-     * \%s : A SLF4J placeholder with an escaped backslash \{} ----> {} : An
-     * escaped SLF4J placeholder, yields the literal {} %{} ----> %%%s : An
-     * SLF4J placeholder with prepended percent, yields the formatting string
-     * %s, with escaped % prepended {} ----> %s : An SLF4J placeholder, yields
-     * the formatting string %s
+     * placeholder with "%s" This is fraught with special cases.... 
+     * 
+     * <p>
+     * \\{} ----> \%s : A SLF4J placeholder with an escaped backslash 
+     * <p>
+     * \{} ----> {} : An escaped SLF4J placeholder, yields the literal {}
+     * <p>
+     * %{} ----> %%%s : An SLF4J placeholder with prepended percent, yields the formatting string %s, with escaped % prepended
+     * <p>
+     * {} ----> %s : An SLF4J placeholder, yields the formatting string %s
      */
 
     private static Pattern PATTERN = Pattern.compile("\\{\\}"); // access is threadsafe
@@ -153,7 +157,7 @@ public class Formatter {
                 buf.append(exe.getMessage().trim());
             }
             buf.append("'\n");
-            for (int i=0;i<args.length;i++) {
+            for (int i = 0; i < args.length; i++) {
                 buf.append("Argument ");
                 buf.append(i);
                 buf.append(": '");
@@ -174,11 +178,14 @@ public class Formatter {
 
     public static String formatForMe(String formatStr, Object... args) {
         //
-        // In a particularly rare case of a call from Groovy, "args" can be
-        // null.
+        // In a particularly rare case of a call from Groovy, "args" can be null.
         // This is actually a Groovy bug which should be fixed at some point.
+        // However, we interprete a "null" as "do not format"
         //
-        Object[] argsLocal = (args != null ? args : new Object[] {});
+        if (args == null) {
+            return formatStr;
+        }
+        assert args != null;
         //
         // Now format. Problems may occur - in particular, args[] may be too
         // short for the format spec.
@@ -186,14 +193,14 @@ public class Formatter {
         // For objects and the %s format specifier, Java invokes .toString() on
         // the object (which could throw).
         //
-        String output = formatForMeLow(formatStr, argsLocal);
+        String output = formatForMeLow(formatStr, args);
         //
         // If the returned value is "null", assume "formatStrIn" was bad and
         // call again with
         // "null", thus choosing a default formatting string.
         //
         if (output == null) {
-            output = formatForMeLow(null, argsLocal);
+            output = formatForMeLow(null, args);
         }
         assert output != null;
         return output;
