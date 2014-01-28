@@ -6,26 +6,18 @@ _Java utility classes to perform simple runtime checks, similarly to what is don
 
 This is practically the same as [Google Guava's "Preconditions"](http://code.google.com/p/guava-libraries/wiki/PreconditionsExplained).
 
-For more complete/elegant approaches, see the Wikipedia entry for [Design by Contract](http://en.wikipedia.org/wiki/Design_by_contract). 
+For more complete/elegant approaches, see the Wikipedia entry for [Design by Contract](http://en.wikipedia.org/wiki/Design_by_contract). Some projects that seem live in the DbC area are:
 
-Some projects that seem live in the DbC area are:
-
-For Java:
+*For Java:*
 
 * [cofoja Contracts for Java](https://code.google.com/p/cofoja/) - LGPL
 * [Java Contract Suite](http://sourceforge.net/projects/jcontracts/) - Apache License V2.0
 * [Contract4J](http://www.polyglotprogramming.com/contract4j) - Eclipse Public License V1.0
 * [C4J - Design By Contract for Java (2nd gen.)](http://c4j-team.github.io/C4J/theory.html) - Eclipse Public License V1.0
 
-For Groovy:
+*For Groovy:*
 
-* [GContracts for Groovy](http://gcontracts.org/)
-
-For Groovy in particular, see also the [Groovy Power Assert](spot.com/2009/05/new-power-assertions-in-groovy.html).
-
-Further things of interest:
-
-* [argcheck](http://who-t.blogspot.com/2013/12/argcheck-assert-on-steroids.html) - asserts for C on steroids
+* [GContracts](https://github.com/andresteingress/gcontracts/wiki)
 
 ## How
 
@@ -36,12 +28,18 @@ of arguments passed to methods. Messages formatted in
 
 ## Exceptions thrown
 
-All of the methods throw `CheckFailedException` derived from `RuntimeException`, instead of `IllegalArgumentException` and `IllegalStateException` or even an `Error`. Thus:
+All of the methods throw `CheckFailedException` derived from [`RuntimeException`](http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html), instead of:
+
+* An [`IllegalArgumentException`](http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html), which seems appropriate for argument checks only ;
+* An [`IllegalStateException`](http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html), for which it is difficult to say when it is appropriate ; 
+* An [`Error`](http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html), which should terminate the thread and possibly the JVM, and which it is inappropriate to handle (in particular, [`AssertionError`](http://docs.oracle.com/javase/7/docs/api/java/lang/AssertionError.html) falls into this category)
+ 
+Therefore:
 
 * You don't need to declare a "throws" clause on the methods all along the call stack ; 
 * You can catch and handle the exception if you need to and you are in a place where handling it makes sense ;
-* It is clear that it comes from a "check" call ; 
-* It is not considered as unresolvable as an [`Error`](http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html)
+* It is clear that it comes from a "Check" method ; 
+* It is not considered as unresolvable as an `Error`.
 
 ## Example
 
@@ -71,6 +69,14 @@ directly via "git repository exploring".
 ## Ideas for Improvements
 
 * Use [paranamer](https://github.com/paul-hammant/paranamer) to determine parameter names at runtime.
+
+## Further reading
+
+* [argcheck: asserts for C on steroids](http://who-t.blogspot.com/2013/12/argcheck-assert-on-steroids.html)
+* [Using Assertions in Java Technology](http://www.oracle.com/us/technologies/java/assertions-139853.html) -- _Qusay H. Mahmoud, Oracle Corp. (2005)_
+* [A historical perspective on runtime assertion checking in software development](http://discovery.ucl.ac.uk/4991/1/4991.pdf) -- _Lori A. Clarke, und David S. Rosenblum. ACM SIGSOFT Software Engineering Notes 31(3):25-37 (2006)_
+* [The benefits of programming with assertions (a.k.a. assert statements)](http://www.pgbovine.net/programming-with-asserts.htm) -- _Philip J. Guo (2008)_
+* [Groovy Power Assert](http://dontmindthelanguage.wordpress.com/2009/12/11/groovy-1-7-power-assert/).
 
 ## License
 
