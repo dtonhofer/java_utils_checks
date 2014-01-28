@@ -224,7 +224,7 @@ public class Check {
      */
 
     public static void isFalse(boolean x, String txt) {
-        if (!x) {
+        if (x) {
             throw new CheckFailedException(txt);
         }
     }
@@ -248,7 +248,7 @@ public class Check {
      */
 
     public static void isFalse(boolean x, String txt, Object arg) {
-        if (!x) {
+        if (x) {
             throw new CheckFailedException(Formatter.formatForMe(txt, arg));
         }
     }
@@ -272,7 +272,7 @@ public class Check {
      */
 
     public static void isFalse(boolean x, String txt, Object arg1, Object arg2) {
-        if (!x) {
+        if (x) {
             throw new CheckFailedException(Formatter.formatForMe(txt, arg1, arg2));
         }
     }
@@ -296,7 +296,7 @@ public class Check {
      */
 
     public static void isFalse(boolean x, String txt, Object arg1, Object arg2, Object arg3) {
-        if (!x) {
+        if (x) {
             throw new CheckFailedException(Formatter.formatForMe(txt, arg1, arg2, arg3));
         }
     }
@@ -323,7 +323,7 @@ public class Check {
      */
 
     public static void isFalse(boolean x, String txt, Object arg1, Object arg2, Object arg3, Object... args) {
-        if (!x) {
+        if (x) {
             throw new CheckFailedException(Formatter.formatForMe(txt, recopyArray(arg1, arg2, arg3, args)));
         }
         if (formatterAlwaysOn) {
