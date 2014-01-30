@@ -6,6 +6,32 @@ import org.junit.Test;
 
 import com.mplify.checkers.Check;
 
+/* 34567890123456789012345678901234567890123456789012345678901234567890123456789
+ * *****************************************************************************
+ * Copyright (c) 2013, Q-LEAP S.A.
+ *                     14 rue Aldringen
+ *                     L-1118 Luxembourg
+ *
+ * Released under the MIT License: http://opensource.org/licenses/MIT
+ *******************************************************************************
+ *******************************************************************************
+ * Not a real test case, just something to quickly verify how fast vararg
+ * invocations are relative to mutiple-argument methods.
+ * 
+ * Turns out there is actually no real difference..
+ * 
+ * Total time taken for 5 rounds of 100000 0-argument calls: 34 ms
+ * Total time taken for 5 rounds of 100000 1-argument calls: 28 ms
+ * Total time taken for 5 rounds of 100000 2-argument calls: 27 ms
+ * Total time taken for 5 rounds of 100000 3-argument calls: 71 ms
+ * Total time taken for 5 rounds of 100000 4-argument calls: 19 ms
+ * Total time taken for 5 rounds of 100000 5-argument calls: 19 ms
+ * Total time taken for 5 rounds of 100000 6-argument calls: 13 ms
+ * Total time taken for 5 rounds of 100000 7-argument calls: 19 ms
+ * Total time taken for 5 rounds of 100000 8-argument calls: 19 ms
+ * Total time taken for 5 rounds of 100000 9-argument calls: 21 ms
+ ******************************************************************************/
+
 @SuppressWarnings("static-method")
 public class Junit_VarArgPerformance {
 
@@ -13,7 +39,7 @@ public class Junit_VarArgPerformance {
 
     private static String makeRandomString() {
         StringBuilder buf = new StringBuilder();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1000; i++) {
             buf.append(Character.charCount('A' + rand.nextInt(32)));
         }
         return buf.toString();
@@ -21,16 +47,24 @@ public class Junit_VarArgPerformance {
 
     @Test
     public void testIsTrue_fixedParametersVsVarargs() {
-        for (int round = 0; round < 60; round++) {
-            int lim = 10;
+        int lim = 10;
+        int n = 100000;
+        int rounds = 5;
+        long[] totals = new long[lim];
+        for (int round = 0; round < rounds; round++) {
+            //
+            // Set up random strings to pass
+            //
             String[] rs = new String[lim];
+            for (int j = 0; j < lim; j++) {
+                rs[j] = makeRandomString();
+            }
             for (int c = 0; c < lim; c++) {
-                int n = 100000;
+                //
+                // Make "n" calls to isTrue() with varying number of arguments
+                //                
                 long start = System.currentTimeMillis();
                 for (int i = 0; i < n; i++) {
-                    for (int j = 0; j < lim; j++) {
-                        rs[j] = makeRandomString();
-                    }
                     switch (c) {
                     case 0:
                         Check.isTrue(true, "msg");
@@ -65,11 +99,12 @@ public class Junit_VarArgPerformance {
                     default:
                         Check.cannotHappen();
                     }
-                }
-                long delta = System.currentTimeMillis() - start;
-                // this takes around 2 ms
-                System.out.println("Round " + round + ": Time taken for " + n + " " + c + "-argument calls: " + delta + " ms");
+                }                
+                totals[c] += (System.currentTimeMillis() - start);
             }
+        }
+        for (int c = 0; c < lim; c++) {            
+            System.out.println("Total time taken for " + rounds + " rounds of " + n + " " + c + "-argument calls: " + totals[c] + " ms");
         }
     }
 }
