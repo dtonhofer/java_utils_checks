@@ -155,16 +155,17 @@ public class Check {
     }
 
     /**
-     * Check that CharSequence "x" is not null and contains stuff other than whitespace
+     * Check that CharSequence "x" is not null and contains stuff other than whitespace.
+     * If the CharSequence is empty, this is considered to be "only whitespace"
      */
 
     public static void notNullAndNotOnlyWhitespace(CharSequence x, String name) {
         notNull(x, name);
         if (x.length() == 0) {
             if (name == null) {
-                throw new CheckFailedException("The unnamed CharSequence is empty");
+                throw new CheckFailedException("The unnamed CharSequence is empty (considered to be 'only whitespace')");
             } else {
-                throw new CheckFailedException("The CharSequence '" + name + "' is empty");
+                throw new CheckFailedException("The CharSequence '" + name + "' is empty (considered to be 'only whitespace')");
             }
         }
         int len = x.length();
@@ -174,9 +175,9 @@ public class Check {
             }
         }
         if (name == null) {
-            throw new CheckFailedException("The unnamed CharSequence contains only whitespace");
+            throw new CheckFailedException("The unnamed CharSequence is not empty but contains only whitespace");
         } else {
-            throw new CheckFailedException("The CharSequence '" + name + "' contains only whitespace");
+            throw new CheckFailedException("The CharSequence '" + name + "'  is not empty but contains only whitespace");
         }
     }
 
@@ -184,7 +185,7 @@ public class Check {
      * Check that CharSequence "x" is not null and contains stuff other than whitespace
      */
 
-    public static void notNullAndNotOnlyWhitespace(String x) {
+    public static void notNullAndNotOnlyWhitespace(CharSequence x) {
         notNullAndNotOnlyWhitespace(x, null);
     }
 

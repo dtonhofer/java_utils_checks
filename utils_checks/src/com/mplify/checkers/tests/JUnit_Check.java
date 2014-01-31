@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
 
 @SuppressWarnings("static-method")
 public class JUnit_Check {
-    
+
     @Test
     public void testIsTrue_noMessage_andTrue() {
         Check.isTrue(true);
@@ -81,7 +81,6 @@ public class JUnit_Check {
             assertEquals(msg, exe.getMessage());
         }
     }
-
 
     @SuppressWarnings("boxing")
     @Test
@@ -145,6 +144,26 @@ public class JUnit_Check {
         } catch (CheckFailedException exe) {
             assertEquals("one placeholder: null", exe.getMessage());
         }
+    }
+
+    @Test(expected = CheckFailedException.class)
+    public void testNotNullAndNotOnlyWhitespace0() {
+        Check.notNullAndNotOnlyWhitespace(null, "bad string 0");
+    }
+
+    @Test(expected = CheckFailedException.class)
+    public void testNotNullAndNotOnlyWhitespace1() {
+        Check.notNullAndNotOnlyWhitespace("", "bad string 1");
+    }
+
+    @Test(expected = CheckFailedException.class)
+    public void testNotNullAndNotOnlyWhitespace2() {
+        Check.notNullAndNotOnlyWhitespace("    ", "bad string 2");
+    }
+
+    @Test
+    public void testNotNullAndNotOnlyWhitespace3() {
+        Check.notNullAndNotOnlyWhitespace("  XX  ", "good string");
     }
 
 }
