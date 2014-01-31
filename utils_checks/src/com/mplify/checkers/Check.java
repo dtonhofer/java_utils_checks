@@ -64,7 +64,9 @@ import java.util.Map;
  * 2013.06.21 - Renamed "_check" to "Check" for consistency
  * 2014.01.19 - Added notNullAndLargerThanZero()
  * 2014.01.21 - Reorganized methods, special cases 1..3 args for 'isTrue()'
- *              and 'isFalse()' added 
+ *              and 'isFalse()' added
+ *              
+ * TODO: Functions to check "equality" of standard types               
  ******************************************************************************/
 
 public class Check {
@@ -501,6 +503,27 @@ public class Check {
     }
 
     /**
+     * Even more
+     */
+    
+    public static void isBetween(double lowest, double highest, double x) {
+        isBetween(lowest, highest, x, false);
+    }
+    
+    @SuppressWarnings("boxing")
+    public static void isBetween(double lowest, double highest, double x, boolean swapLimitsAsNeeded) {
+        double l = lowest;
+        double h = highest;
+        if (l > h && swapLimitsAsNeeded) {
+            // assume honest error
+            double tmp = h;
+            h = l;
+            l = tmp;            
+        }
+        isTrue(l <= x && x <= h, "The value {} is not in the range [{},{}]",x,l,h);
+    }
+    
+    /**
      * == Used for database fields ==
      */
 
@@ -653,4 +676,6 @@ public class Check {
         }
         return newArray;
     }
+    
+  
 }
