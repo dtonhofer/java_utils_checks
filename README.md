@@ -4,7 +4,7 @@
 
 _Java utility classes to perform simple runtime checks, similarly to what is done with Java's "assert" keyword._
 
-This is practically the same as [Google Guava's "Preconditions"](http://code.google.com/p/guava-libraries/wiki/PreconditionsExplained).
+This is practically the same as [Google Guava's "Preconditions"](http://code.google.com/p/guava-libraries/wiki/PreconditionsExplained), but with more methods and more text formatting.
 
 For more complete/elegant approaches, see the Wikipedia entry for [Design by Contract](http://en.wikipedia.org/wiki/Design_by_contract). Some projects that seem live in the DbC area are:
 
