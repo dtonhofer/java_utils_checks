@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicLong;
  *                     L-1930 Luxembourg
  *
  * Released by M-PLIFY S.A. under the MIT License
- * ALl modifications since still under the MIT License   
+ * All modifications since still under the MIT License   
  *******************************************************************************
  *******************************************************************************
  * Function for checking arguments of a method (or more generally doing
@@ -107,7 +107,8 @@ import java.util.concurrent.atomic.AtomicLong;
  *              and 'isFalse()' added
  * 2014.02.01 - Namespace changed from "com.mplify.checkers" to 
  *              "com.example" for some neutrality. Added more
- *              methods; cleaned things up, made more consistent.              
+ *              methods; cleaned things up, made more consistent.    
+ * 2014.02.02 - Added checkNotNullwm()                        
  ******************************************************************************/
 
 public class BasicChecks {
@@ -238,17 +239,48 @@ public class BasicChecks {
         return checkNotNull(x, null);
     }
 
-    public static Object checkNotNull(Object x, String name) {
+    public static Object checkNotNull(Object x, String nameOfX) {
         if (x == null) {
-            if (name == null) {
+            if (nameOfX == null) {
                 instaFail("The unnamed Object is (null)");
             } else {
-                instaFail("The Object '" + name + "' is (null)");
+                instaFail("The Object '" + nameOfX + "' is (null)");
             }
             assert false : "Never get here";
         }
         return x;
     }
+    
+    /**
+     * Check for "null" references, but with extended message. The passed Object is returned (as is done in
+     * Guava) so one can call the check "inline". This is the same as checkNotNull() but the String is
+     * now a message, possibly followed by parameters to be inserted at placeholder locations.
+     */
+
+    public static Object checkNotNullwm(Object x) {
+        checkTrue(x != null);
+        return x;
+    }
+
+    public static Object checkNotNullwm(Object x, String txt) {
+        checkTrue(x != null, txt);
+        return x;
+    }
+
+    public static Object checkNotNullwm(Object x, String txt, Object arg) {
+        checkTrue(x != null, txt, arg);
+        return x;
+    }
+
+    public static Object checkNotNullwm(Object x, String txt, Object arg1, Object arg2) {
+        checkTrue(x != null, txt, arg1, arg2);
+        return x;
+    }
+
+    public static Object checkNotNullwm(Object x, String txt, Object arg1, Object arg2, Object... args) {
+        checkTrue(x != null, txt, arg1, args, args);
+        return x;
+    }    
 
     /**
      * Check that the passed Object is not null and "contains elements". The
