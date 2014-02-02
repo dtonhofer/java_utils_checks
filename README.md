@@ -72,6 +72,16 @@ Code written using `Check` methods. You will get catchable `CheckFailedException
         checkTrue(ads.knowsAbout(idx),"AdminStructure does not know about index {}", idx);
         ....
 
+Another example:
+
+    static InputStream getStreamFromFile(File fileName) {
+        checkNotNull(fileName, "file name")
+        checkTrue(fileName.exists(), "The file '{}' does not exist", fileName)
+        checkTrue(fileName.isFile(), "The file '{}' is not a 'normal' file", fileName)
+        checkTrue(fileName.canRead(), "The file '{}' is not readable", fileName)
+        return new FileInputStream(fileName)
+    }
+
 ## Loading this into Eclipse IDE
 
 The directory "utils_checks" in the git repository is an Eclipse project, so everything can be pulled into Eclipse 
