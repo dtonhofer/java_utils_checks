@@ -1,8 +1,8 @@
 # java_utils_checks
 
-## What is this
+## What is this?
 
-_Java utility classes to perform basic runtime checks, similar to what is done with Java's "assert" keyword or the [Junit Assert class](http://junit.org/javadoc/latest/org/junit/Assert.html). Also similar to [Google Guava's "Preconditions"](http://code.google.com/p/guava-libraries/wiki/PreconditionsExplained), but with more methods and better text formatting.
+Java utility classes to perform basic runtime checks, similar to what is done with Java's "assert" keyword or the [Junit Assert class](http://junit.org/javadoc/latest/org/junit/Assert.html). Also similar to [Google Guava's "Preconditions"](http://code.google.com/p/guava-libraries/wiki/PreconditionsExplained), but with more methods and better text formatting.
 
 For more complete/elegant approaches, see the Wikipedia entry for [Design by Contract](http://en.wikipedia.org/wiki/Design_by_contract). Some projects that seem live in the Design-by_Contract area are:
 
@@ -17,7 +17,7 @@ For more complete/elegant approaches, see the Wikipedia entry for [Design by Con
 
 * [GContracts](https://github.com/andresteingress/gcontracts/wiki)
 
-## How to use this
+## How to use this?
 
 The class `com.example.BasicChecks` exports a set of static methods that can be placed into code to perform runtime checks of the assumed program state. Some of these take messages with placeholders and the corresponding arguments as a vararg array. The placeholders in the messages can be [printf style](http://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html) or [SLF4J style](http://slf4j.org/faq.html#logging_performance) (i.e. the placeholder is indicated by '{}').
 
@@ -27,23 +27,23 @@ For simplest syntax, `com.example.BasicChecks` should be included statically:
  
  Then call at will:
   
-    Long res = callStuff();
-    checkNotNull(x, "Long returned by callStuff()"):
+    Long x = callStuff();
+    checkNotNull(x):
  
  Some methods return the object that was checked, so you may write:
   
-    Long res = checkNotNull(callStuff(), "Long returned by callStuff()"):
+    Long x = checkNotNull(callStuff()):
  
  I am sure this is more legible though.
  
 ## Exceptions thrown
 
-All of the methods throw `CheckFailedException` derived from [`RuntimeException`](http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html), instead of:
+All of the methods throw `CheckFailedException` derived from [`RuntimeException`](http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html), instead of the following:
 
-* An [`IllegalArgumentException`](http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html), which seems appropriate for argument checks only ;
-* An [`IllegalStateException`](http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html), for which it is difficult to say when it is appropriate ;
-* An [`NullPointerException`](http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html), for which it is difficult to say when it is appropriate and IMHO indicates a bare programming error ;
-* An [`Error`](http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html), which should terminate the thread and possibly the JVM, and which it is inappropriate to handle (in particular, [`AssertionError`](http://docs.oracle.com/javase/7/docs/api/java/lang/AssertionError.html) falls into this category)
+* [`IllegalArgumentException`](http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html), which seems appropriate for argument checks only ;
+* [`IllegalStateException`](http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html), for which it is difficult to say when it is appropriate ;
+* [`NullPointerException`](http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html), for which it is difficult to say when it is appropriate and IMHO indicates a bare programming error ;
+* [`Error`](http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html), which should terminate the thread and possibly the JVM, (in particular, [`AssertionError`](http://docs.oracle.com/javase/7/docs/api/java/lang/AssertionError.html) falls into this category)
  
 Thus:
 
