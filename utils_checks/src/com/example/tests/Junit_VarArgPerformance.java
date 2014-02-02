@@ -1,4 +1,4 @@
-package com.mplify.checkers.tests;
+package com.example.tests;
 
 import java.util.Random;
 
