@@ -1,4 +1,4 @@
-package com.mplify.checkers;
+package com.example;
 
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
  * *****************************************************************************
@@ -6,29 +6,31 @@ package com.mplify.checkers;
  *                     68, avenue de la Liberté
  *                     L-1930 Luxembourg
  *
- * 2013-01: Released by M-PLIFY S.A. 
- *          under the MIT License: http://opensource.org/licenses/MIT  
+ * Released by M-PLIFY S.A. under the MIT License
  *******************************************************************************
  *******************************************************************************
  * Runtime Exception (so no need to declare it) thrown by "check" methods.
+ * 
+ * 2014.02.01 - Namespace changed from "com.mplify.checkers" to "com.example"
+ *              for some neutrality.     
  ******************************************************************************/
 
 @SuppressWarnings("serial")
-public class CheckFailedException extends RuntimeException {
+public class UnexpectedDataException extends RuntimeException {
 
-    public CheckFailedException() {
+    public UnexpectedDataException() {
         super();
     }
 
-    public CheckFailedException(String message, Throwable cause) {
+    public UnexpectedDataException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public CheckFailedException(String message) {
+    public UnexpectedDataException(String message) {
         super(message);
     }
 
-    public CheckFailedException(Throwable cause) {
+    public UnexpectedDataException(Throwable cause) {
         super(cause);
     }
     

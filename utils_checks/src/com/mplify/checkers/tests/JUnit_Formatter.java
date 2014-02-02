@@ -2,22 +2,17 @@ package com.mplify.checkers.tests;
 
 import org.junit.Test;
 
-import com.mplify.checkers.Formatter;
+import com.example.Formatter;
 
 import static org.junit.Assert.*;
 
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
  * *****************************************************************************
- * Copyright (c) 2013, Q-LEAP S.A.
- *                     14 rue Aldringen
- *                     L-1118 Luxembourg
- *
- * Released under the MIT License: http://opensource.org/licenses/MIT
- *******************************************************************************
- *******************************************************************************
  * A test case!
  * 
  * 2013.11.18 - Created to test the correct replacement of placeholders
+ * 2014.02.01 - Namespace changed from "com.mplify.checkers" to "com.example"
+ *              for some neutrality.           
  ******************************************************************************/
 
 @SuppressWarnings("static-method")

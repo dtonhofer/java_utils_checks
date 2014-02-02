@@ -1,4 +1,4 @@
-package com.mplify.checkers;
+package com.example;
 
 import java.util.regex.Pattern;
 
@@ -8,8 +8,7 @@ import java.util.regex.Pattern;
  *                     68, avenue de la Liberté
  *                     L-1930 Luxembourg
  *
- * 2013-01: Released by M-PLIFY S.A. 
- *          under the MIT License: http://opensource.org/licenses/MIT 
+ * Released by M-PLIFY S.A. under the MIT License
  *******************************************************************************
  *******************************************************************************
  * Formatting of messages on behalf of "Check". The "formatString" can use the
@@ -24,9 +23,12 @@ import java.util.regex.Pattern;
  * 
  * http://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html 
  * 
+ * 2013.01.XX - Released by M-PLIFY S.A. under the MIT License 
  * 2013.11.18 - Extended "formatForMeLow" so that it accepts the SLF4J 
  *              placeholder '{}', which is more generic and easier
  *              to use than '%s '%d' etc.
+ * 2014.02.01 - Namespace changed from "com.mplify.checkers" to "com.example"
+ *              for some neutrality.               
  ******************************************************************************/
 
 public class Formatter {
@@ -183,7 +185,7 @@ public class Formatter {
         // However, we interprete a "null" as "do not format"
         //
         if (args == null) {
-            return formatStr;
+            return formatStr; // which may be null!!
         }
         assert args != null;
         //

@@ -4,21 +4,14 @@ import java.util.Random;
 
 import org.junit.Test;
 
-import com.mplify.checkers.Check;
+import com.example.BasicChecks;
 
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
  * *****************************************************************************
- * Copyright (c) 2013, Q-LEAP S.A.
- *                     14 rue Aldringen
- *                     L-1118 Luxembourg
- *
- * Released under the MIT License: http://opensource.org/licenses/MIT
- *******************************************************************************
- *******************************************************************************
- * Not a real test case, just something to quickly verify how fast vararg
+ * Not a real test case, just something to quickly/naively verify how fast vararg
  * invocations are relative to mutiple-argument methods.
  * 
- * Turns out there is actually no real difference..
+ * Turns out there is actually no real difference:
  * 
  * Total time taken for 5 rounds of 100000 0-argument calls: 34 ms
  * Total time taken for 5 rounds of 100000 1-argument calls: 28 ms
@@ -67,37 +60,37 @@ public class Junit_VarArgPerformance {
                 for (int i = 0; i < n; i++) {
                     switch (c) {
                     case 0:
-                        Check.isTrue(true, "msg");
+                        BasicChecks.checkTrue(true, "msg");
                         break;
                     case 1:
-                        Check.isTrue(true, "msg", rs[0]);
+                        BasicChecks.checkTrue(true, "msg", rs[0]);
                         break;
                     case 2:
-                        Check.isTrue(true, "msg", rs[0], rs[1]);
+                        BasicChecks.checkTrue(true, "msg", rs[0], rs[1]);
                         break;
                     case 3:
-                        Check.isTrue(true, "msg", rs[0], rs[1], rs[2]);
+                        BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2]);
                         break;
                     case 4:
-                        Check.isTrue(true, "msg", rs[0], rs[1], rs[2], rs[3]);
+                        BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2], rs[3]);
                         break;
                     case 5:
-                        Check.isTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4]);
+                        BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4]);
                         break;
                     case 6:
-                        Check.isTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4], rs[5]);
+                        BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4], rs[5]);
                         break;
                     case 7:
-                        Check.isTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4], rs[5], rs[6]);
+                        BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4], rs[5], rs[6]);
                         break;
                     case 8:
-                        Check.isTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4], rs[5], rs[6], rs[7]);
+                        BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4], rs[5], rs[6], rs[7]);
                         break;
                     case 9:
-                        Check.isTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4], rs[5], rs[6], rs[7], rs[8]);
+                        BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4], rs[5], rs[6], rs[7], rs[8]);
                         break;
                     default:
-                        Check.cannotHappen();
+                        BasicChecks.cannotHappen();
                     }
                 }                
                 totals[c] += (System.currentTimeMillis() - start);
