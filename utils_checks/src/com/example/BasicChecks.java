@@ -16,7 +16,8 @@ import java.util.concurrent.atomic.AtomicLong;
  *                     68, avenue de la Liberté
  *                     L-1930 Luxembourg
  *
- * Released by M-PLIFY S.A. under the MIT License  
+ * Released by M-PLIFY S.A. under the MIT License
+ * ALl modifications since still under the MIT License   
  *******************************************************************************
  *******************************************************************************
  * Function for checking arguments of a method (or more generally doing
@@ -69,7 +70,18 @@ import java.util.concurrent.atomic.AtomicLong;
  * 
  * Import this class statically:
  * 
- * import com.example.areyousure.AreYouSure.*
+ *    import static com.example.BasicChecks.*
+ * 
+ * Then call at will:
+ * 
+ *    Long res = callStuff();
+ *    checkNotNull(x, "Long returned by callStuff()"):
+ * 
+ * Some methods return the object that was checked, so you may write:
+ * 
+ *    Long res = checkNotNull(callStuff(), "Long returned by callStuff()"):
+ * 
+ * I am sure this is more legible though.
  * 
  * --------------
  * 2010.11.25 - Created because bored to add multiliners to methods entries
