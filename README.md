@@ -1,12 +1,10 @@
 # java_utils_checks
 
-## What
+## What is this
 
-_Java utility classes to perform simple runtime checks, similarly to what is done with Java's "assert" keyword._
+_Java utility classes to perform basic runtime checks, similar to what is done with Java's "assert" keyword or the [Junit Assert class](http://junit.org/javadoc/latest/org/junit/Assert.html). Also similar to [Google Guava's "Preconditions"](http://code.google.com/p/guava-libraries/wiki/PreconditionsExplained), but with more methods and better text formatting.
 
-This is practically the same as [Google Guava's "Preconditions"](http://code.google.com/p/guava-libraries/wiki/PreconditionsExplained), but with more methods and more text formatting.
-
-For more complete/elegant approaches, see the Wikipedia entry for [Design by Contract](http://en.wikipedia.org/wiki/Design_by_contract). Some projects that seem live in the DbC area are:
+For more complete/elegant approaches, see the Wikipedia entry for [Design by Contract](http://en.wikipedia.org/wiki/Design_by_contract). Some projects that seem live in the Design-by_Contract area are:
 
 *For Java:*
 
@@ -19,22 +17,35 @@ For more complete/elegant approaches, see the Wikipedia entry for [Design by Con
 
 * [GContracts](https://github.com/andresteingress/gcontracts/wiki)
 
-## How
+## How to use this
 
-The class `com.mplify.Check` exports several static methods to perform common checks, in particular checks
-of arguments passed to methods. Messages formatted in 
-[printf style](http://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html) or [SLF4J style](http://slf4j.org/faq.html#logging_performance)
-(i.e. using '{}' as placeholder) can be passed to these methods.
+The class `com.example.BasicChecks` exports a set of static methods that can be placed into code to perform runtime checks of the assumed program state. Some of these take messages with placeholders and the corresponding arguments as a vararg array. The placeholders in the messages can be [printf style](http://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html) or [SLF4J style](http://slf4j.org/faq.html#logging_performance) (i.e. the placeholder is indicated by '{}').
 
+For simplest syntax, `com.example.BasicChecks` should be included statically:
+
+    import static com.example.BasicChecks.*
+ 
+ Then call at will:
+  
+    Long res = callStuff();
+    checkNotNull(x, "Long returned by callStuff()"):
+ 
+ Some methods return the object that was checked, so you may write:
+  
+    Long res = checkNotNull(callStuff(), "Long returned by callStuff()"):
+ 
+ I am sure this is more legible though.
+ 
 ## Exceptions thrown
 
 All of the methods throw `CheckFailedException` derived from [`RuntimeException`](http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html), instead of:
 
 * An [`IllegalArgumentException`](http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html), which seems appropriate for argument checks only ;
-* An [`IllegalStateException`](http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html), for which it is difficult to say when it is appropriate ; 
+* An [`IllegalStateException`](http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html), for which it is difficult to say when it is appropriate ;
+* An [`NullPointerException`](http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html), for which it is difficult to say when it is appropriate and IMHO indicates a bare programming error ;
 * An [`Error`](http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html), which should terminate the thread and possibly the JVM, and which it is inappropriate to handle (in particular, [`AssertionError`](http://docs.oracle.com/javase/7/docs/api/java/lang/AssertionError.html) falls into this category)
  
-Therefore:
+Thus:
 
 * You don't need to declare a "throws" clause on the methods all along the call stack ; 
 * You can catch and handle the exception if you need to and you are in a place where handling it makes sense ;
@@ -55,13 +66,13 @@ Code written if you are feeling lazy and don't care that `assert` should not be 
 Code written using `Check` methods. You will get catchable `CheckFailedException` and the checks will always be performed:
 
     public Map<SamId,SamAddressData> build(List<SamAddress> sal, AdminStructure ads, Integer idx) {
-        Check.notNullAndNotEmpty(sal,"SamAddress list");
-        Check.notNull(ads,"AdminStructure");
-        Check.notNullAndLargerThanZero(idx,"Integer index");
-        Check.isTrue(ads.knowsAbout(idx),"AdminStructure does not know about index {}", idx);
+        checkNotNullAndNotEmpty(sal,"SamAddress list");
+        checkNotNull(ads,"AdminStructure");
+        checkNotNullAndLargerThanZero(idx,"Integer index");
+        checkTrue(ads.knowsAbout(idx),"AdminStructure does not know about index {}", idx);
         ....
 
-## Loading into Eclipse IDE
+## Loading this into Eclipse IDE
 
 The directory "utils_checks" in the git repository is an Eclipse project, so everything can be pulled into Eclipse 
 directly via "git repository exploring".
@@ -80,5 +91,7 @@ directly via "git repository exploring".
 
 ## License
 
-Released by M-PLIFY S.A. in January 2013 under the [MIT License](http://opensource.org/licenses/MIT) 
+* Released by M-PLIFY S.A. in January 2013 under the [MIT License](http://opensource.org/licenses/MIT) 
+* Extensively modified since, all modifications are still under the MIT License.
+
 
