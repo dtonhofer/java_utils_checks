@@ -26,7 +26,7 @@ import com.example.BasicChecks;
  ******************************************************************************/
 
 @SuppressWarnings("static-method")
-public class Junit_VarArgPerformance {
+public class JUnit_VarArgPerformance {
 
     private static Random rand = new Random();
 

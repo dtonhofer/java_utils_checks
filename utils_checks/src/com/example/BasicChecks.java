@@ -760,14 +760,56 @@ public class BasicChecks {
             l = tmp;
         }
         boolean okIf = l <= x && x <= h;
-        if (name == null) {
-            checkTrue(okIf, "The value '{}' is not in the range [{},{}]: {}", name, l, h, x);
+        if (name != null) {
+            checkTrue(okIf, "The double value '{}' is not in the range [{},{}]: {}", name, l, h, x);
         } else {
-            checkTrue(okIf, "The unnamed value is not in the range [{},{}]: {}", l, h, x);
+            checkTrue(okIf, "The unnamed double value is not in the range [{},{}]: {}", l, h, x);
         }
         return x;
     }
 
+    
+    /**
+     * Special case of a "float in a given range" -- float <= x <= float One
+     * may ask for swapping of lowest and highest as needed (in case on really does not
+     * intend to define the empty range)
+     */
+
+    // TODO: Needs TestCase
+    public static double checkBetween(float lowest, float highest, float x) {
+        return checkBetween(lowest, highest, x, false, null);
+    }
+
+    // TODO: Needs TestCase
+    public static double checkBetween(float lowest, float highest, float x, String name) {
+        return checkBetween(lowest, highest, x, false, name);
+    }
+
+    // TODO: Needs TestCase
+    public static double checkBetween(float lowest, float highest, float x, boolean swapLimitsAsNeeded) {
+        return checkBetween(lowest, highest, x, swapLimitsAsNeeded, null);
+    }
+
+    // TODO: Needs TestCase
+    @SuppressWarnings("boxing")
+    public static double checkBetween(float lowest, float highest, float x, boolean swapLimitsAsNeeded, String name) {
+        float l = lowest;
+        float h = highest;
+        if (l > h && swapLimitsAsNeeded) {
+            // assume honest error
+            float tmp = h;
+            h = l;
+            l = tmp;
+        }
+        boolean okIf = l <= x && x <= h;
+        if (name != null) {
+            checkTrue(okIf, "The float value '{}' is not in the range [{},{}]: {}", name, l, h, x);
+        } else {
+            checkTrue(okIf, "The unnamed float value is not in the range [{},{}]: {}", l, h, x);
+        }
+        return x;
+    }
+    
     /**
      * Special case of an "int in a given range" -- lowest <= x <= highest One
      * may ask for swapping of lowest and highest as needed  (in case on really does not
@@ -801,10 +843,10 @@ public class BasicChecks {
             l = tmp;
         }
         boolean okIf = l <= x && x <= h;
-        if (name == null) {
-            checkTrue(okIf, "The value '{}' is not in the range [{},{}]: {}", name, l, h, x);
+        if (name != null) {
+            checkTrue(okIf, "The int value '{}' is not in the range [{},{}]: {}", name, l, h, x);
         } else {
-            checkTrue(okIf, "The unnamed value is not in the range [{},{}]: {}", l, h, x);
+            checkTrue(okIf, "The unnamed int value is not in the range [{},{}]: {}", l, h, x);
         }
         return x;
     }
@@ -842,10 +884,10 @@ public class BasicChecks {
             l = tmp;
         }
         boolean okIf = l <= x && x < h;
-        if (name == null) {
-            checkTrue(okIf, "The value '{}' is not in the range [{},{}[: {}", name, l, h, x);
+        if (name != null) {
+            checkTrue(okIf, "The int value '{}' is not in the range [{},{}[: {}", name, l, h, x);
         } else {
-            checkTrue(okIf, "The unnamed value is not in the range [{},{}[: {}", l, h, x);
+            checkTrue(okIf, "The unnamed int value is not in the range [{},{}[: {}", l, h, x);
         }
         return x;
     }
@@ -883,10 +925,10 @@ public class BasicChecks {
             l = tmp;
         }
         boolean okIf = l < x && x <= h;
-        if (name == null) {
-            checkTrue(okIf, "The value '{}' is not in the range ]{},{}]: {}", name, l, h, x);
+        if (name != null) {
+            checkTrue(okIf, "The int value '{}' is not in the range ]{},{}]: {}", name, l, h, x);
         } else {
-            checkTrue(okIf, "The unnamed value is not in the range ]{},{}]: {}", l, h, x);
+            checkTrue(okIf, "The unnamed int value is not in the range ]{},{}]: {}", l, h, x);
         }
         return x;
     }
@@ -924,10 +966,10 @@ public class BasicChecks {
             l = tmp;
         }
         boolean okIf = l < x && x < h;
-        if (name == null) {
-            checkTrue(okIf, "The value '{}' is not in the range ]{},{}[: {}", name, l, h, x);
+        if (name != null) {
+            checkTrue(okIf, "The int value '{}' is not in the range ]{},{}[: {}", name, l, h, x);
         } else {
-            checkTrue(okIf, "The unnamed value is not in the range ]{},{}[: {}", l, h, x);
+            checkTrue(okIf, "The unnamed int value is not in the range ]{},{}[: {}", l, h, x);
         }
         return x;
     }
@@ -1111,7 +1153,7 @@ public class BasicChecks {
         newArray[0] = arg1;
         newArray[1] = arg2;
         if (args != null) {
-            int j = 3;
+            int j = 2;
             for (int i = 0; i < args.length; i++) {
                 newArray[j] = args[i];
                 j++;

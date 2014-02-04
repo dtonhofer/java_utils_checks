@@ -11,7 +11,7 @@ import org.junit.runners.Suite;
  ******************************************************************************/
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({JUnit_Check.class, JUnit_Formatter.class})
+@Suite.SuiteClasses({JUnit_Check.class, JUnit_Formatter.class, JUnit_CheckFalse.class, JUnit_CheckTrue.class, JUnit_MessageReplacement.class,})
 public class JUnit_All {
 
     // NOP
