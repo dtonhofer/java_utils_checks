@@ -109,6 +109,11 @@ import java.util.concurrent.atomic.AtomicLong;
  *              "com.example" for some neutrality. Added more
  *              methods; cleaned things up, made more consistent.    
  * 2014.02.02 - Added checkNotNullwm()                        
+ * 
+ * 
+ * TODO: Needs a "less than"
+ * TODO: Text formatting is still not nice
+ * TODO: Some trivial conditions on Collections (how to disable these if costly?)
  ******************************************************************************/
 
 public class BasicChecks {
