@@ -17,6 +17,10 @@ For more complete/elegant approaches, see the Wikipedia entry for [Design by Con
 
 * [GContracts](https://github.com/andresteingress/gcontracts/wiki)
 
+*For an interesting way to express the pass/fail conditions in Java:*
+
+* [Hamcrest Matchers](http://hamcrest.org/JavaHamcrest/)
+
 ## How to use this?
 
 The class `com.example.BasicChecks` exports a set of static methods that can be placed into code to perform runtime checks of the assumed program state. Some of these take messages with placeholders and the corresponding arguments as a vararg array. The placeholders in the messages can be [printf style](http://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html) or [SLF4J style](http://slf4j.org/faq.html#logging_performance) (i.e. the placeholder is indicated by '{}').
