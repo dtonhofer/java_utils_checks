@@ -102,7 +102,7 @@ directly via "git repository exploring".
 * [A historical perspective on runtime assertion checking in software development](http://discovery.ucl.ac.uk/4991/1/4991.pdf) -- _Lori A. Clarke, und David S. Rosenblum. ACM SIGSOFT Software Engineering Notes 31(3):25-37 (2006)_
 * [The benefits of programming with assertions (a.k.a. assert statements)](http://www.pgbovine.net/programming-with-asserts.htm) -- _Philip J. Guo (2008)_
 * [Groovy Power Assert](http://dontmindthelanguage.wordpress.com/2009/12/11/groovy-1-7-power-assert/).
-* [Eiffel Documentation: Design by Contract, Assertions and Exceptions](http://docs.eiffel.com/book/method/et-design-contract-tm-assertions-and-exceptions)
+* [Eiffel Documentation: Design by Contract, Assertions and Exceptions](http://docs.eiffel.com/book/method/et-design-contract-tm-assertions-and-exceptions), in particular the [Check instruction] (http://docs.eiffel.com/book/method/et-instructions#Check)
 * [Microsoft Code Contracts: Not with a Ten-foot Pole](http://blogs.encodo.ch/news/view_article.php?id=170)
 
 ## License
