@@ -424,7 +424,7 @@ public class BasicChecks {
      * Given a list, is the "index" in range
      */
 
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({ "rawtypes", "boxing" })
     public static void checkElementIndex(int index, List list) {
         checkNotNull(list, "list");
         assert list != null;
@@ -441,6 +441,7 @@ public class BasicChecks {
      * Given an array, is the "index" in range
      */
 
+    @SuppressWarnings("boxing")
     public static void checkElementIndex(int index, Object array) {
         checkNotNull(array, "array");
         assert array != null;
@@ -632,6 +633,7 @@ public class BasicChecks {
     }
 
     // TODO: Needs TestCase
+    @SuppressWarnings("boxing")
     public static int checkLargerThanZero(int x, String name) {
         if (x <= 0) {
             failComparison(true, x, name, LTOETZ);
@@ -645,6 +647,7 @@ public class BasicChecks {
     }
 
     // TODO: Needs TestCase
+    @SuppressWarnings("boxing")
     public static long checkLargerThanZero(long x, String name) {
         if (x <= 0) {
             failComparison(true, x, name, LTOETZ);
@@ -658,6 +661,7 @@ public class BasicChecks {
     }
 
     // TODO: Needs TestCase
+    @SuppressWarnings("boxing")
     public static float checkLargerThanZero(float x, String name) {
         if (x <= 0) {
             failComparison(true, x, name, LTOETZ);
@@ -671,6 +675,7 @@ public class BasicChecks {
     }
 
     // TODO: Needs TestCase
+    @SuppressWarnings("boxing")
     public static double checkLargerThanZero(double x, String name) {
         if (x <= 0d) {
             failComparison(true, x, name, LTOETZ);
@@ -684,6 +689,7 @@ public class BasicChecks {
     }
 
     // TODO: Needs TestCase
+    @SuppressWarnings("boxing")
     public static int checkLargerOrEqualToZero(int x, String name) {
         if (x <= 0) {
             failComparison(true, x, name, LTZ);
@@ -697,6 +703,7 @@ public class BasicChecks {
     }
 
     // TODO: Needs TestCase
+    @SuppressWarnings("boxing")
     public static long checkLargerOrEqualToZero(long x, String name) {
         if (x <= 0l) {
             failComparison(true, x, name, LTZ);
@@ -710,6 +717,7 @@ public class BasicChecks {
     }
 
     // TODO: Needs TestCase
+    @SuppressWarnings("boxing")
     public static float checkLargerOrEqualToZero(float x, String name) {
         if (x <= 0f) {
             failComparison(true, x, name, LTZ);
@@ -723,6 +731,7 @@ public class BasicChecks {
     }
 
     // TODO: Needs TestCase
+    @SuppressWarnings("boxing")
     public static double checkLargerOrEqualToZero(double x, String name) {
         if (x <= 0d) {
             failComparison(true, x, name, LTZ);
@@ -1022,6 +1031,32 @@ public class BasicChecks {
             System.err.println(Formatter.formatForMe(INNOCUOUS_TEXT + txt, recopyArray(arg1, arg2, args)));
         }
     }
+    
+    /**
+     * Very generic: Check whether "a implies b"
+     */
+
+    public static void checkImplies(boolean a, boolean b) {
+        if (a && !b) {
+            instaFail("Test for 'implication' fails (no further indication or text)");
+        }
+    }
+
+    public static void checkImplies(boolean a, boolean b, String txt) {
+        if (a && !b) {
+            instaFail(txt);
+        }
+    }
+
+    public static void checkImplies(boolean a, boolean b, String txt, Object... args) {
+        if (a && !b) {
+            instaFail(txt, args);
+        }
+        if (FORMATTER_ALWAYS_ON) {
+            System.err.println(Formatter.formatForMe(INNOCUOUS_TEXT + txt, args));
+        }
+    }
+    
 
     /**
      * Very generic: Check whether a condition yields "false"
@@ -1148,6 +1183,7 @@ public class BasicChecks {
         return !antecedent || consequent;
     }
 
+    
     /**
      * Helper
      */
