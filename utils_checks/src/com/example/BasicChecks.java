@@ -109,7 +109,8 @@ import java.util.concurrent.atomic.AtomicLong;
  *              "com.example" for some neutrality. Added more
  *              methods; cleaned things up, made more consistent.    
  * 2014.02.02 - Added checkNotNullwm()                        
- * 
+ * 2014.08.08 - Removed checkNotNullwm(), or rather gave it the same name as
+ *              checkNotNull() for user-friendly integration
  * 
  * TODO: Needs a "less than"
  * TODO: Text formatting is still not nice
@@ -236,56 +237,67 @@ public class BasicChecks {
 
     /**
      * Check for "null" references. The passed Object is returned (as is done in
-     * Guava) so one can call the check "inline". One may pass an optional
-     * "name" to name the Object in the thrown exception.
+     * Guava) so one can call the check "inline". This is the same as checkNotNull() but the String is
+     * now a message, possibly followed by parameters to be inserted at placeholder locations.
      */
 
     public static Object checkNotNull(Object x) {
         return checkNotNull(x, null);
     }
 
-    public static Object checkNotNull(Object x, String nameOfX) {
+    public static Object checkNotNull(Object x, String txt) {
+        //
+        // Special handling: if "txt" contains no whitespace, assume it is the name of the
+        // passed "x" and construct a special error message
+        //
+        String msg;
         if (x == null) {
-            if (nameOfX == null) {
-                instaFail("The unnamed Object is (null)");
+            if (txt == null) {
+                msg = "The unnamed Object is (null)";
+            } else if (txt.indexOf(' ') < 0) {
+                msg = "The Object '" + txt + "' is (null)";
             } else {
-                instaFail("The Object '" + nameOfX + "' is (null)");
+                msg = txt;
             }
-            assert false : "Never get here";
+            instaFail(msg);
         }
         return x;
     }
-    
-    /**
-     * Check for "null" references, but with extended message. The passed Object is returned (as is done in
-     * Guava) so one can call the check "inline". This is the same as checkNotNull() but the String is
-     * now a message, possibly followed by parameters to be inserted at placeholder locations.
-     */
 
-    public static Object checkNotNullwm(Object x) {
-        checkTrue(x != null);
-        return x;
-    }
-
-    public static Object checkNotNullwm(Object x, String txt) {
-        checkTrue(x != null, txt);
-        return x;
-    }
-
-    public static Object checkNotNullwm(Object x, String txt, Object arg) {
+    public static Object checkNotNull(Object x, String txt, Object arg) {
         checkTrue(x != null, txt, arg);
         return x;
     }
 
-    public static Object checkNotNullwm(Object x, String txt, Object arg1, Object arg2) {
+    public static Object checkNotNull(Object x, String txt, Object arg1, Object arg2) {
         checkTrue(x != null, txt, arg1, arg2);
         return x;
     }
 
-    public static Object checkNotNullwm(Object x, String txt, Object arg1, Object arg2, Object... args) {
+    public static Object checkNotNull(Object x, String txt, Object arg1, Object arg2, Object... args) {
         checkTrue(x != null, txt, arg1, args, args);
         return x;
-    }    
+    }
+
+    /**
+     * Checking for null
+     */
+
+    public static void checkNull(Object x, String txt) {
+        checkTrue(x == null, txt);
+    }
+
+    public static void checkNull(Object x, String txt, Object arg) {
+        checkTrue(x == null, txt, arg);
+    }
+
+    public static void checkNull(Object x, String txt, Object arg1, Object arg2) {
+        checkTrue(x == null, txt, arg1, arg2);
+    }
+
+    public static void checkNull(Object x, String txt, Object arg1, Object arg2, Object... args) {
+        checkTrue(x == null, txt, arg1, args, args);
+    }
 
     /**
      * Check that the passed Object is not null and "contains elements". The
@@ -305,7 +317,7 @@ public class BasicChecks {
     @SuppressWarnings("rawtypes")
     public static Object checkNotNullAndNotEmpty(Object x, String name) {
         checkNotNull(x, name);
-        assert x!=null;
+        assert x != null;
         if (x instanceof Collection) {
             if (((Collection) x).isEmpty()) {
                 if (name == null) {
@@ -341,7 +353,7 @@ public class BasicChecks {
                     instaFail("The array of type " + x.getClass().getName() + " '" + name + "' is empty");
                 }
                 assert false : "Never get here";
-            }        
+            }
         } else {
             instaFail("The passed Object is of type " + x.getClass().getName() + ", which cannot be handled!");
             assert false : "Never get here";
@@ -363,7 +375,7 @@ public class BasicChecks {
 
     public static CharSequence checkNotNullAndNotOnlyWhitespace(CharSequence x, String name) {
         checkNotNull(x, name);
-        assert x!=null;
+        assert x != null;
         if (x.length() == 0) {
             if (name == null) {
                 instaFail("The unnamed " + x.getClass().getName() + " is empty (considered to be 'only whitespace')");
@@ -445,7 +457,7 @@ public class BasicChecks {
     public static void checkElementIndex(int index, Object array) {
         checkNotNull(array, "array");
         assert array != null;
-        checkTrue(array.getClass().isArray(),"The passed Object is not an array but a {}",array.getClass().getName());
+        checkTrue(array.getClass().isArray(), "The passed Object is not an array but a {}", array.getClass().getName());
         String txt = "The index value {} is out of range for an array with element range [0,{}[";
         if (index < 0 || Array.getLength(array) <= index) {
             instaFail(txt, index, Array.getLength(array));
@@ -461,10 +473,10 @@ public class BasicChecks {
      * container checked for "null", and depending on the implementation, that may
      * fail abysmally. For Map, we check the key set (not the value set).
      */
-    
+
     // TODO: Needs TestCase
     @SuppressWarnings("rawtypes")
-    public static void checkMemberInContainer(Object member,Object container) {
+    public static void checkMemberInContainer(Object member, Object container) {
         checkNotNull(container, "container");
         assert container != null;
         if (container instanceof Collection) {
@@ -479,15 +491,14 @@ public class BasicChecks {
             }
         } else if (container.getClass().isArray()) {
             int max = Array.getLength(container);
-            for (int i=0;i<max;i++) {
+            for (int i = 0; i < max; i++) {
                 Object inArray = Array.get(container, i);
                 if (member == null) {
                     if (inArray == null) {
                         // yup, found it!
                         return;
                     }
-                }
-                else {
+                } else {
                     if (member.equals(inArray)) {
                         // yup, found it!
                         return;
@@ -495,7 +506,7 @@ public class BasicChecks {
                 }
             }
             instaFail("The array of type " + container.getClass().getName() + " does not contain the key " + (member == null ? "(null)" : ("of type " + member.getClass().getName())));
-            assert false : "Never get here";            
+            assert false : "Never get here";
         } else {
             instaFail("The passed object of type '" + container.getClass().getName() + "' is not handled -- fix code!");
             assert false : "Never get here";
@@ -622,7 +633,6 @@ public class BasicChecks {
         }
     }
 
-
     /**
      * Some "sugar" to make life easier and also avoid incontinent boxing
      */
@@ -696,7 +706,7 @@ public class BasicChecks {
         }
         return x;
     }
-    
+
     // TODO: Needs TestCase
     public static long checkLargerOrEqualToZero(long x) {
         return checkLargerOrEqualToZero(x, null);
@@ -738,8 +748,6 @@ public class BasicChecks {
         }
         return x;
     }
-    
-    
 
     /**
      * Special case of a "double in a given range" -- lowest <= x <= highest One
@@ -782,7 +790,6 @@ public class BasicChecks {
         return x;
     }
 
-    
     /**
      * Special case of a "float in a given range" -- float <= x <= float One
      * may ask for swapping of lowest and highest as needed (in case on really does not
@@ -823,7 +830,7 @@ public class BasicChecks {
         }
         return x;
     }
-    
+
     /**
      * Special case of an "int in a given range" -- lowest <= x <= highest One
      * may ask for swapping of lowest and highest as needed  (in case on really does not
@@ -1031,7 +1038,7 @@ public class BasicChecks {
             System.err.println(Formatter.formatForMe(INNOCUOUS_TEXT + txt, recopyArray(arg1, arg2, args)));
         }
     }
-    
+
     /**
      * Very generic: Check whether "a implies b"
      */
@@ -1056,7 +1063,6 @@ public class BasicChecks {
             System.err.println(Formatter.formatForMe(INNOCUOUS_TEXT + txt, args));
         }
     }
-    
 
     /**
      * Very generic: Check whether a condition yields "false"
@@ -1183,7 +1189,6 @@ public class BasicChecks {
         return !antecedent || consequent;
     }
 
-    
     /**
      * Helper
      */
