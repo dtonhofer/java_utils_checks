@@ -1,4 +1,4 @@
-package com.example;
+package name.heavycarbon.checks;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
@@ -11,14 +11,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
- * *****************************************************************************
- * Copyright (c) 2010, M-PLIFY S.A.
- *                     68, avenue de la Liberté
- *                     L-1930 Luxembourg
- *
- * Released by M-PLIFY S.A. under the MIT License
- * All modifications since still under the MIT License   
- *******************************************************************************
  *******************************************************************************
  * Function for checking arguments of a method (or more generally doing
  * assert-like checks) and throwing accordingly.
@@ -111,9 +103,10 @@ import java.util.concurrent.atomic.AtomicLong;
  * 2014.02.02 - Added checkNotNullwm()                        
  * 2014.08.08 - Removed checkNotNullwm(), or rather gave it the same name as
  *              checkNotNull() for user-friendly integration
+ * 2015.08.07 - Namespace changed from "com.example" to "name.heavycarbon.checks"
  * 
  * TODO: Needs a "less than"
- * TODO: Text formatting is still not nice
+ * TODO: Text formatting is still not nice :-((
  * TODO: Some trivial conditions on Collections (how to disable these if costly?)
  ******************************************************************************/
 

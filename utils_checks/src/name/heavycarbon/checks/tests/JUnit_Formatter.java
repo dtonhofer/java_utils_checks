@@ -1,8 +1,8 @@
-package com.example.tests;
+package name.heavycarbon.checks.tests;
 
 import org.junit.Test;
 
-import com.example.Formatter;
+import name.heavycarbon.checks.Formatter;
 
 import static org.junit.Assert.*;
 
@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
  * 
  * 2013.11.18 - Created to test the correct replacement of placeholders
  * 2014.02.01 - Namespace changed from "com.mplify.checkers" to "com.example"
- *              for some neutrality.           
+ * 2015.08.07 - Namespace changed from "com.example" to "name.heavycarbon.checks"
  ******************************************************************************/
 
 @SuppressWarnings("static-method")

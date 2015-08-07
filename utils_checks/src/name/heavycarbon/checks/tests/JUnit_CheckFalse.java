@@ -1,14 +1,15 @@
-package com.example.tests;
+package name.heavycarbon.checks.tests;
 
 import org.junit.Test;
 
-import com.example.BasicChecks;
+import name.heavycarbon.checks.BasicChecks;
 
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
  * *****************************************************************************
  * Testing "BasicChecks"
  * 
  * 2014.02.04 - Created to test the correct behaviour of "Check" methods
+ * 2015.08.07 - Namespace changed from "com.example" to "name.heavycarbon.checks"
  ******************************************************************************/
 
 @SuppressWarnings("static-method")

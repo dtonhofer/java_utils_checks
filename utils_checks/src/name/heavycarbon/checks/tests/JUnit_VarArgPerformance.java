@@ -1,17 +1,18 @@
-package com.example.tests;
+package name.heavycarbon.checks.tests;
 
 import java.util.Random;
 
 import org.junit.Test;
 
-import com.example.BasicChecks;
+import name.heavycarbon.checks.BasicChecks;
 
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
  * *****************************************************************************
- * Not a real test case, just something to quickly/naively verify how fast vararg
- * invocations are relative to mutiple-argument methods.
+ * Not a real test case, just something to quickly/naively verify how fast
+ * vararg invocations are relative to mutiple-argument methods.
  * 
- * Turns out there is actually no real difference:
+ * Turns out there is actually no real difference. What is the effect of the
+ * JIT in this?
  * 
  * Total time taken for 5 rounds of 100000 0-argument calls: 34 ms
  * Total time taken for 5 rounds of 100000 1-argument calls: 28 ms
@@ -23,6 +24,8 @@ import com.example.BasicChecks;
  * Total time taken for 5 rounds of 100000 7-argument calls: 19 ms
  * Total time taken for 5 rounds of 100000 8-argument calls: 19 ms
  * Total time taken for 5 rounds of 100000 9-argument calls: 21 ms
+ *
+ * 2015.08.07 - Namespace changed from "com.example" to "name.heavycarbon.checks"
  ******************************************************************************/
 
 @SuppressWarnings("static-method")

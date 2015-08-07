@@ -1,18 +1,11 @@
-package com.example;
+package name.heavycarbon.checks;
 
 import java.util.regex.Pattern;
 
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
- * *****************************************************************************
- * Copyright (c) 2010, M-PLIFY S.A.
- *                     68, avenue de la Liberté
- *                     L-1930 Luxembourg
- *
- * Released by M-PLIFY S.A. under the MIT License
- *******************************************************************************
  *******************************************************************************
  * Formatting of messages on behalf of "Check". The "formatString" can use the
- * SLF4J placeholder "{}" or the print-style placeholders from 
+ * SLF4J placeholder "{}" or the print-style placeholders from
  * java.util.Formatting 
  * 
  * See 
@@ -28,7 +21,7 @@ import java.util.regex.Pattern;
  *              placeholder '{}', which is more generic and easier
  *              to use than '%s '%d' etc.
  * 2014.02.01 - Namespace changed from "com.mplify.checkers" to "com.example"
- *              for some neutrality.               
+ * 2015.08.07 - Namespace changed from "com.example" to "name.heavycarbon.checks"
  ******************************************************************************/
 
 public class Formatter {

@@ -1,4 +1,4 @@
-package com.example.tests;
+package name.heavycarbon.checks.tests;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -7,7 +7,8 @@ import org.junit.runners.Suite;
  * *****************************************************************************
  * Call all test cases
  * 
- * 2014.02.XX - Created     
+ * 2014.02.XX - Created
+ * 2015.08.07 - Namespace changed from "com.example" to "name.heavycarbon.checks"
  ******************************************************************************/
 
 @RunWith(Suite.class)

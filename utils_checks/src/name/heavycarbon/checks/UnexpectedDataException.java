@@ -1,18 +1,11 @@
-package com.example;
+package name.heavycarbon.checks;
 
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
- * *****************************************************************************
- * Copyright (c) 2010, M-PLIFY S.A.
- *                     68, avenue de la Liberté
- *                     L-1930 Luxembourg
- *
- * Released by M-PLIFY S.A. under the MIT License
- *******************************************************************************
  *******************************************************************************
  * Runtime Exception (so no need to declare it) thrown by "check" methods.
  * 
  * 2014.02.01 - Namespace changed from "com.mplify.checkers" to "com.example"
- *              for some neutrality.     
+ * 2015.08.07 - Namespace changed from "com.example" to "name.heavycarbon.checks"
  ******************************************************************************/
 
 @SuppressWarnings("serial")

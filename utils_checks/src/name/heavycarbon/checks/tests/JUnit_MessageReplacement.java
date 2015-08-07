@@ -1,4 +1,4 @@
-package com.example.tests;
+package name.heavycarbon.checks.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -6,14 +6,15 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import com.example.BasicChecks;
-import com.example.CheckFailedException;
+import name.heavycarbon.checks.BasicChecks;
+import name.heavycarbon.checks.CheckFailedException;
 
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
  * *****************************************************************************
  * Testing "BasicChecks"
  * 
  * 2014.02.04 - Created to test the correct behaviour of "Check" methods
+ * 2015.08.07 - Namespace changed from "com.example" to "name.heavycarbon.checks"
  ******************************************************************************/
 
 @SuppressWarnings("static-method")
