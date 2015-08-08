@@ -9,8 +9,8 @@ For more complete/elegant approaches, see the Wikipedia entry for [Design by Con
 *For Java:*
 
 * [cofoja Contracts for Java](https://code.google.com/p/cofoja/) - LGPL
-* [Java Contract Suite](http://sourceforge.net/projects/jcontracts/) - Apache License V2.0
-* [Contract4J](http://www.polyglotprogramming.com/contract4j) - Eclipse Public License V1.0
+* [Java Contract Suite](http://sourceforge.net/projects/jcontracts/) (resurrection of the iContract tool from Reliable Systems) - Apache License V2.0
+* [Contract4J](http://deanwampler.github.io/contract4j/) - Eclipse Public License V1.0
 * [C4J - Design By Contract for Java (2nd gen.)](http://c4j-team.github.io/C4J/theory.html) - Eclipse Public License V1.0
 
 *For Groovy:*
