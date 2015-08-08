@@ -2,7 +2,7 @@
 
 ## What is this?
 
-Java utility classes to perform basic runtime checks, similar to what is done with Java's "assert" keyword or the [Junit Assert class](http://junit.org/javadoc/latest/org/junit/Assert.html). Also similar to [Google Guava's "Preconditions"](http://code.google.com/p/guava-libraries/wiki/PreconditionsExplained), but with more methods and better text formatting.
+Java utility classes to perform basic runtime checks, similar to what is done with the Java [assert](http://docs.oracle.com/javase/8/docs/technotes/guides/language/assert.html) keyword or the [JUnit org.junit.Assert class](http://junit.org/javadoc/latest/org/junit/Assert.html). Also similar to [Google Guava's "Preconditions"](http://code.google.com/p/guava-libraries/wiki/PreconditionsExplained), but with more methods and better text formatting.
 
 For more complete/elegant approaches, see the Wikipedia entry for [Design by Contract](http://en.wikipedia.org/wiki/Design_by_contract). Some projects that seem live in the Design-by_Contract area are:
 
