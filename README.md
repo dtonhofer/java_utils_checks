@@ -21,15 +21,25 @@ For more complete/elegant approaches, see the Wikipedia entry for [Design by Con
 
 * [Hamcrest Matchers](http://hamcrest.org/JavaHamcrest/)
 
+## Code organization
+
+* Jars ready to use underneath `jars`. The JUnit tests are in a separate jar. So are the sources.
+* Source tree underneath `src`, with JUnit tests in the `tests` leaf package.
+* A bash script to run the JUnit tests has been provided.
+* TODO: Adding a Gradle/MAven build definition.
+* The tree under `utils_checks` is actually an Eclipse project, it has a `.classpath` and `.project`file. So everything can be pulled into Eclipse directly via "git repository exploring".
+
+![File Organization](https://github.com/dtonhofer/java_utils_checks/blob/master/FileOrg.png)
+
 ## How to use this?
 
-The class `com.example.BasicChecks` exports a set of static methods that can be placed into code to perform runtime checks of the assumed program state. Some of these take messages with placeholders and the corresponding arguments as a vararg array. The placeholders in the messages can be [printf style](http://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html) or [SLF4J style](http://slf4j.org/faq.html#logging_performance) (i.e. the placeholder is indicated by '{}').
+The class `name.heavycarbon.checks.BasicChecks` exports a set of static methods that can be placed into code to perform runtime checks of the presumed program state. Some of these take messages with placeholders and the corresponding arguments as a vararg array. The placeholders in the messages can be [printf style](http://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html) or [SLF4J style](http://slf4j.org/faq.html#logging_performance) (i.e. the placeholder is indicated by '{}').
 
-For simplest syntax, `com.example.BasicChecks` should be included statically:
+`name.heavycarbon.checks.BasicChecks` can be included statically:
 
-    import static com.example.BasicChecks.*
+    import static name.heavycarbon.checks.BasicChecks.*
  
- Then call at will:
+ Then call the static methods like this:
   
     Long x = callStuff();
     checkNotNull(x):
@@ -37,8 +47,6 @@ For simplest syntax, `com.example.BasicChecks` should be included statically:
  Some methods return the object that was checked, so you may write:
   
     Long x = checkNotNull(callStuff()):
- 
- I am sure this is more legible though.
  
 ## Exceptions thrown
 
@@ -85,11 +93,6 @@ Another example:
         checkTrue(fileName.canRead(), "The file '{}' is not readable", fileName)
         return new FileInputStream(fileName)
     }
-
-## Loading this into Eclipse IDE
-
-The directory "utils_checks" in the git repository is an Eclipse project, so everything can be pulled into Eclipse 
-directly via "git repository exploring".
 
 ## Ideas for Improvements
 
