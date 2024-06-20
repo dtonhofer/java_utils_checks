@@ -1,53 +1,52 @@
-package name.heavycarbon.checks.tests;
+package name.heavycarbon.checks;
 
-import org.junit.Test;
-
-import name.heavycarbon.checks.BasicChecks;
+import org.junit.jupiter.api.Test;
 
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
  * *****************************************************************************
  * Testing "BasicChecks"
- * 
+ *
  * 2014.02.04 - Created to test the correct behaviour of "Check" methods
  * 2015.08.07 - Namespace changed from "com.example" to "name.heavycarbon.checks"
+ * 2024.06.20 - Updated to Java 21 and JUnit 5, and fixed according to IDE
+ *              suggestions.
  ******************************************************************************/
 
-@SuppressWarnings("static-method")
-public class JUnit_CheckTrue {
-    
+class TestCheckTrue {
+
     @Test
-    public void testCheckTrue_noMessageAndTrue() {
+    void noMessageAndTrue() {
         BasicChecks.checkTrue(true);
     }
 
     @Test
-    public void testCeckTrue_nullMessageAndTrue() {
+    void nullMessageAndTrue() {
         BasicChecks.checkTrue(true, null);
     }
 
     @Test
-    public void testCeckTrue_zeroPlaceholdersAndTrue() {
+    void zeroPlaceholdersAndTrue() {
         BasicChecks.checkTrue(true, "message");
     }
-    
+
     @Test
-    public void testCheckTrue_onePlaceholderAndTrue() {
+    void onePlaceholderAndTrue() {
         BasicChecks.checkTrue(true, "1 placeholder: {}", "A");
     }
 
     @Test
-    public void testCheckTrue_twoPlaceholdersAndTrue() {
+    void twoPlaceholdersAndTrue() {
         BasicChecks.checkTrue(true, "2 placeholders: {} {}", "A", "B");
     }
-    
+
     @Test
-    public void testCheckTrue_threePlaceholdersAndTrue() {
+    void threePlaceholdersAndTrue() {
         BasicChecks.checkTrue(true, "3 placeholders: {} {} {}", "A", "B", "C");
     }
-    
+
     @Test
-    public void testCheckTrue_fourPlaceholdersAndTrue() {
+    void fourPlaceholdersAndTrue() {
         BasicChecks.checkTrue(true, "4 placeholders: {} {} {} {}", "A", "B", "C", "D");
     }
-    
+
 }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>name.heavycarbon</groupId>
+    <artifactId>java_utils_checks</artifactId>
+    <version>2.0</version> <!-- v2 is updated for Java 21 -->
+    <packaging>jar</packaging>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+        <!-- This should pull in dependencies -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- Run tests with: mvn test -->
+
+    <!-- Jar with: mvn jar:jar -->
+    <!-- This gives: "target/java_utils_checks-1.0.jar" -->
+
+    <!-- Test jar with: mvn jar:test-jar -->
+    <!-- This gives: "target/java_utils_checks-1.0-tests.jar" -->
+
+    <!-- Source jar with: mvn source:jar -->
+    <!-- This gives: "target/java_utils_checks-1.0-sources.jar" -->
+
+    <!-- Test source jar with: mvn source:test-jar -->
+    <!-- This gives: "target/java_utils_checks-1.0-test-sources.jar" -->
+
+
+    <!-- Maven Source Plugin and Surfire (testing) plugin seems to work even if not configured -->
+
+    <build>
+        <plugins>
+            <plugin>
+                <!-- https://maven.apache.org/surefire/maven-surefire-plugin/ -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.3.0</version>
+            </plugin>
+            <plugin>
+                <!-- https://maven.apache.org/plugins/maven-source-plugin/ -->
+                <!-- https://maven.apache.org/plugins/maven-source-plugin/examples/configureplugin.html -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.1</version>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

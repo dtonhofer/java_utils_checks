@@ -1,19 +1,17 @@
-package name.heavycarbon.checks.tests;
+package name.heavycarbon.checks;
 
 import java.util.Random;
 
-import org.junit.Test;
-
-import name.heavycarbon.checks.BasicChecks;
+import org.junit.jupiter.api.Test;
 
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
  * *****************************************************************************
  * Not a real test case, just something to quickly/naively verify how fast
  * vararg invocations are relative to mutiple-argument methods.
- * 
+ *
  * Turns out there is actually no real difference. What is the effect of the
  * JIT in this?
- * 
+ *
  * Total time taken for 5 rounds of 100000 0-argument calls: 34 ms
  * Total time taken for 5 rounds of 100000 1-argument calls: 28 ms
  * Total time taken for 5 rounds of 100000 2-argument calls: 27 ms
@@ -26,12 +24,13 @@ import name.heavycarbon.checks.BasicChecks;
  * Total time taken for 5 rounds of 100000 9-argument calls: 21 ms
  *
  * 2015.08.07 - Namespace changed from "com.example" to "name.heavycarbon.checks"
+ * 2024.06.20 - Updated to Java 21 and JUnit 5, and fixed according to IDE
+ *              suggestions.
  ******************************************************************************/
 
-@SuppressWarnings("static-method")
-public class JUnit_VarArgPerformance {
+class TestVarArgPerformance {
 
-    private static Random rand = new Random();
+    private static final Random rand = new Random();
 
     private static String makeRandomString() {
         StringBuilder buf = new StringBuilder();
@@ -42,7 +41,7 @@ public class JUnit_VarArgPerformance {
     }
 
     @Test
-    public void testIsTrue_fixedParametersVsVarargs() {
+    void fixedParametersVsVarargs() {
         int lim = 10;
         int n = 100000;
         int rounds = 5;
@@ -62,44 +61,44 @@ public class JUnit_VarArgPerformance {
                 long start = System.currentTimeMillis();
                 for (int i = 0; i < n; i++) {
                     switch (c) {
-                    case 0:
-                        BasicChecks.checkTrue(true, "msg");
-                        break;
-                    case 1:
-                        BasicChecks.checkTrue(true, "msg", rs[0]);
-                        break;
-                    case 2:
-                        BasicChecks.checkTrue(true, "msg", rs[0], rs[1]);
-                        break;
-                    case 3:
-                        BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2]);
-                        break;
-                    case 4:
-                        BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2], rs[3]);
-                        break;
-                    case 5:
-                        BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4]);
-                        break;
-                    case 6:
-                        BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4], rs[5]);
-                        break;
-                    case 7:
-                        BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4], rs[5], rs[6]);
-                        break;
-                    case 8:
-                        BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4], rs[5], rs[6], rs[7]);
-                        break;
-                    case 9:
-                        BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4], rs[5], rs[6], rs[7], rs[8]);
-                        break;
-                    default:
-                        BasicChecks.cannotHappen();
+                        case 0:
+                            BasicChecks.checkTrue(true, "msg");
+                            break;
+                        case 1:
+                            BasicChecks.checkTrue(true, "msg", rs[0]);
+                            break;
+                        case 2:
+                            BasicChecks.checkTrue(true, "msg", rs[0], rs[1]);
+                            break;
+                        case 3:
+                            BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2]);
+                            break;
+                        case 4:
+                            BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2], rs[3]);
+                            break;
+                        case 5:
+                            BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4]);
+                            break;
+                        case 6:
+                            BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4], rs[5]);
+                            break;
+                        case 7:
+                            BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4], rs[5], rs[6]);
+                            break;
+                        case 8:
+                            BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4], rs[5], rs[6], rs[7]);
+                            break;
+                        case 9:
+                            BasicChecks.checkTrue(true, "msg", rs[0], rs[1], rs[2], rs[3], rs[4], rs[5], rs[6], rs[7], rs[8]);
+                            break;
+                        default:
+                            BasicChecks.cannotHappen();
                     }
-                }                
+                }
                 totals[c] += (System.currentTimeMillis() - start);
             }
         }
-        for (int c = 0; c < lim; c++) {            
+        for (int c = 0; c < lim; c++) {
             System.out.println("Total time taken for " + rounds + " rounds of " + n + " " + c + "-argument calls: " + totals[c] + " ms");
         }
     }

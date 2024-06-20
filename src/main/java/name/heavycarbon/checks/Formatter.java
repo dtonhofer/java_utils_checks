@@ -60,21 +60,21 @@ public class Formatter {
      * {} ----> %s : An SLF4J placeholder, yields the formatting string %s
      */
 
-    private static Pattern PATTERN = Pattern.compile("\\{\\}"); // access is threadsafe
+    private static final Pattern PATTERN = Pattern.compile("\\{\\}"); // access is threadsafe
 
     static public String replaceSlf4JPlaceholders(String formatStringIn) {
         assert formatStringIn != null;
-        if (formatStringIn.indexOf("{}") >= 0) {
+        if (formatStringIn.contains("{}")) {
             String[] splits = PATTERN.split(formatStringIn, -1);
             StringBuilder recompose = new StringBuilder();
             for (int i = 0; i < splits.length - 1; i++) {
                 String split = splits[i];
-                if (split.length() >= 2 && split.endsWith("\\\\")) {
-                    recompose.append(split.substring(0, split.length() - 1));
+                if (split.endsWith("\\\\")) {
+                    recompose.append(split, 0, split.length() - 1);
                     recompose.append("%s");
-                } else if (split.length() >= 1) {
+                } else if (!split.isEmpty()) {
                     if (split.endsWith("\\")) {
-                        recompose.append(split.substring(0, split.length() - 1));
+                        recompose.append(split, 0, split.length() - 1);
                         recompose.append("{}");
                     } else if (split.endsWith("%")) {
                         recompose.append(split);
@@ -166,9 +166,9 @@ public class Formatter {
     /**
      * Generate a string given a "formatStr", which contains formatting
      * information according to java.util.Formatter
-     * (http://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html) or
+     * (<a href="https://docs.oracle.com/en/java/javase/21/docs//api/java.base/java/util/Formatter.html">href="https://docs.oracle.com/en/java/javase/21/docs//api/java.base/java/util/Formatter.html</a>) or
      * formatting information according to SLF4J
-     * (http://slf4j.org/faq.html#logging_performance)
+     * (<a href="http://slf4j.org/faq.html#logging_performance">http://slf4j.org/faq.html#logging_performance</a>)
      */
 
     public static String formatForMe(String formatStr, Object... args) {
@@ -180,7 +180,6 @@ public class Formatter {
         if (args == null) {
             return formatStr; // which may be null!!
         }
-        assert args != null;
         //
         // Now format. Problems may occur - in particular, args[] may be too
         // short for the format spec.
@@ -188,16 +187,6 @@ public class Formatter {
         // For objects and the %s format specifier, Java invokes .toString() on
         // the object (which could throw).
         //
-        String output = formatForMeLow(formatStr, args);
-        //
-        // If the returned value is "null", assume "formatStrIn" was bad and
-        // call again with
-        // "null", thus choosing a default formatting string.
-        //
-        if (output == null) {
-            output = formatForMeLow(null, args);
-        }
-        assert output != null;
-        return output;
+        return formatForMeLow(formatStr, args);
     }
 }

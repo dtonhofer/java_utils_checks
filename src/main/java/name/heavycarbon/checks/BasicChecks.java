@@ -148,8 +148,7 @@ public class BasicChecks {
 
     public static boolean isAssertionsOn() {
         boolean assertionsAreOn = false;
-        // the next instruction assigns true to assertionsAreOn only if
-        // assertions are on!
+        // the next instruction assigns true to assertionsAreOn only if assertions are on!
         assert (assertionsAreOn = true) == true;
         return assertionsAreOn;
     }
@@ -215,15 +214,15 @@ public class BasicChecks {
      * Junit's Assert.fail()
      */
 
-    public static void instaFail() {
-        instaFail("Failure with no further information");
+    public static void checkFailed() {
+        checkFailed("Failure with no further information");
     }
 
-    public static void instaFail(String txt) {
-        instaFail(txt, (Object[]) null);
+    public static void checkFailed(String txt) {
+        checkFailed(txt, (Object[]) null);
     }
 
-    public static void instaFail(String txt, Object... args) {
+    public static void checkFailed(String txt, Object... args) {
         String newTxt = Formatter.formatForMe(txt, args);
         throw new CheckFailedException(newTxt);
     }
@@ -252,7 +251,7 @@ public class BasicChecks {
             } else {
                 msg = txt;
             }
-            instaFail(msg);
+            checkFailed(msg);
         }
         return x;
     }
@@ -314,41 +313,41 @@ public class BasicChecks {
         if (x instanceof Collection) {
             if (((Collection) x).isEmpty()) {
                 if (name == null) {
-                    instaFail("The unnamed " + x.getClass().getName() + " is empty");
+                    checkFailed("The unnamed " + x.getClass().getName() + " is empty");
                 } else {
-                    instaFail("The " + x.getClass().getName() + " '" + name + "' is empty");
+                    checkFailed("The " + x.getClass().getName() + " '" + name + "' is empty");
                 }
                 assert false : "Never get here";
             }
         } else if (x instanceof Map) {
             if (((Map) x).isEmpty()) {
                 if (name == null) {
-                    instaFail("The unnamed " + x.getClass().getName() + " is empty");
+                    checkFailed("The unnamed " + x.getClass().getName() + " is empty");
                 } else {
-                    instaFail("The " + x.getClass().getName() + " '" + name + "' is empty");
+                    checkFailed("The " + x.getClass().getName() + " '" + name + "' is empty");
                 }
                 assert false : "Never get here";
             }
         } else if (x instanceof CharSequence) {
-            if (((CharSequence) x).length() == 0) {
+            if (((CharSequence) x).isEmpty()) {
                 if (name == null) {
-                    instaFail("The unnamed " + x.getClass().getName() + " is empty");
+                    checkFailed("The unnamed " + x.getClass().getName() + " is empty");
                 } else {
-                    instaFail("The " + x.getClass().getName() + " '" + name + "' is empty");
+                    checkFailed("The " + x.getClass().getName() + " '" + name + "' is empty");
                 }
                 assert false : "Never get here";
             }
         } else if (x.getClass().isArray()) {
             if (Array.getLength(x) == 0) {
                 if (name == null) {
-                    instaFail("The unnamed array of type " + x.getClass().getName() + " is empty");
+                    checkFailed("The unnamed array of type " + x.getClass().getName() + " is empty");
                 } else {
-                    instaFail("The array of type " + x.getClass().getName() + " '" + name + "' is empty");
+                    checkFailed("The array of type " + x.getClass().getName() + " '" + name + "' is empty");
                 }
                 assert false : "Never get here";
             }
         } else {
-            instaFail("The passed Object is of type " + x.getClass().getName() + ", which cannot be handled!");
+            checkFailed("The passed Object is of type " + x.getClass().getName() + ", which cannot be handled!");
             assert false : "Never get here";
         }
         return x;
@@ -369,11 +368,11 @@ public class BasicChecks {
     public static CharSequence checkNotNullAndNotOnlyWhitespace(CharSequence x, String name) {
         checkNotNull(x, name);
         assert x != null;
-        if (x.length() == 0) {
+        if (x.isEmpty()) {
             if (name == null) {
-                instaFail("The unnamed " + x.getClass().getName() + " is empty (considered to be 'only whitespace')");
+                checkFailed("The unnamed " + x.getClass().getName() + " is empty (considered to be 'only whitespace')");
             } else {
-                instaFail("The " + x.getClass().getName() + " '" + name + "' is empty (considered to be 'only whitespace')");
+                checkFailed("The " + x.getClass().getName() + " '" + name + "' is empty (considered to be 'only whitespace')");
             }
             assert false : "Never get here";
         }
@@ -384,9 +383,9 @@ public class BasicChecks {
             }
         }
         if (name == null) {
-            instaFail("The unnamed " + x.getClass().getName() + " is not empty but contains only whitespace");
+            checkFailed("The unnamed " + x.getClass().getName() + " is not empty but contains only whitespace");
         } else {
-            instaFail("The " + x.getClass().getName() + " '" + name + "'  is not empty but contains only whitespace");
+            checkFailed("The " + x.getClass().getName() + " '" + name + "'  is not empty but contains only whitespace");
         }
         assert false : "Never get here";
         throw new Error(NEVER_GETTING_HERE_BUT_KEEPING_COMPILER_HAPPY);
@@ -410,16 +409,16 @@ public class BasicChecks {
         assert x != null;
         if (clazz == null) {
             if (name == null) {
-                instaFail("The Class Object against which to compare the unnamed " + x.getClass().getName() + " is (null)");
+                checkFailed("The Class Object against which to compare the unnamed " + x.getClass().getName() + " is (null)");
             } else {
-                instaFail("The Class Object against which to compare the " + x.getClass().getName() + " '" + name + "' is (null)");
+                checkFailed("The Class Object against which to compare the " + x.getClass().getName() + " '" + name + "' is (null)");
             }
             assert false : "Never get here";
         }
         assert clazz != null;
         if (!clazz.isAssignableFrom(x.getClass())) {
             String ps = "The Object '" + name + "' is not of class '" + clazz.getName() + "' but of unassignable class '" + x.getClass().getName() + "'";
-            instaFail(ps);
+            checkFailed(ps);
             assert false : "Never get here";
         }
         return x;
@@ -435,7 +434,7 @@ public class BasicChecks {
         assert list != null;
         String txt = "The index value {} is out of range for a list with element range [0,{}[";
         if (index < 0 || list.size() <= index) {
-            instaFail(txt, index, list.size());
+            checkFailed(txt, index, list.size());
         }
         if (FORMATTER_ALWAYS_ON) {
             System.err.println(Formatter.formatForMe(INNOCUOUS_TEXT + txt, index, list.size()));
@@ -453,7 +452,7 @@ public class BasicChecks {
         checkTrue(array.getClass().isArray(), "The passed Object is not an array but a {}", array.getClass().getName());
         String txt = "The index value {} is out of range for an array with element range [0,{}[";
         if (index < 0 || Array.getLength(array) <= index) {
-            instaFail(txt, index, Array.getLength(array));
+            checkFailed(txt, index, Array.getLength(array));
         }
         if (FORMATTER_ALWAYS_ON) {
             System.err.println(Formatter.formatForMe(INNOCUOUS_TEXT + txt, index, Array.getLength(array)));
@@ -474,12 +473,12 @@ public class BasicChecks {
         assert container != null;
         if (container instanceof Collection) {
             if (!((Collection) container).contains(member)) {
-                instaFail("The " + container.getClass().getName() + " does not contain the member " + (member == null ? "(null)" : ("of type " + member.getClass().getName())));
+                checkFailed("The " + container.getClass().getName() + " does not contain the member " + (member == null ? "(null)" : ("of type " + member.getClass().getName())));
                 assert false : "Never get here";
             }
         } else if (container instanceof Map) {
             if (!((Map) container).containsKey(member)) {
-                instaFail("The " + container.getClass().getName() + " does not contain the key " + (member == null ? "(null)" : ("of type " + member.getClass().getName())));
+                checkFailed("The " + container.getClass().getName() + " does not contain the key " + (member == null ? "(null)" : ("of type " + member.getClass().getName())));
                 assert false : "Never get here";
             }
         } else if (container.getClass().isArray()) {
@@ -498,10 +497,10 @@ public class BasicChecks {
                     }
                 }
             }
-            instaFail("The array of type " + container.getClass().getName() + " does not contain the key " + (member == null ? "(null)" : ("of type " + member.getClass().getName())));
+            checkFailed("The array of type " + container.getClass().getName() + " does not contain the key " + (member == null ? "(null)" : ("of type " + member.getClass().getName())));
             assert false : "Never get here";
         } else {
-            instaFail("The passed object of type '" + container.getClass().getName() + "' is not handled -- fix code!");
+            checkFailed("The passed object of type '" + container.getClass().getName() + "' is not handled -- fix code!");
             assert false : "Never get here";
         }
     }
@@ -519,30 +518,22 @@ public class BasicChecks {
     public static Number checkLargerThanZero(Number x, String name) {
         checkNotNull(x, name);
         boolean failure;
-        if (x instanceof Integer) {
-            failure = (((Integer) x).intValue() <= 0);
-        } else if (x instanceof Long) {
-            failure = (((Long) x).longValue() <= 0l);
-        } else if (x instanceof BigDecimal) {
-            failure = (((BigDecimal) x).signum() <= 0);
-        } else if (x instanceof BigInteger) {
-            failure = (((BigInteger) x).signum() <= 0);
-        } else if (x instanceof Byte) {
-            failure = (((Byte) x).byteValue() <= 0);
-        } else if (x instanceof Double) {
-            failure = (((Double) x).doubleValue() <= 0.0d);
-        } else if (x instanceof Float) {
-            failure = (((Float) x).floatValue() <= 0.0f);
-        } else if (x instanceof Short) {
-            failure = (((Short) x).shortValue() <= 0);
-        } else if (x instanceof AtomicInteger) {
-            failure = (((AtomicInteger) x).intValue() <= 0);
-        } else if (x instanceof AtomicLong) {
-            failure = (((AtomicLong) x).longValue() <= 0l);
-        } else {
-            instaFail("The passed " + x.getClass().getName() + " is not handled -- fix code!");
-            assert false : "Never get here";
-            throw new Error(NEVER_GETTING_HERE_BUT_KEEPING_COMPILER_HAPPY);
+        switch (x) {
+            case Integer i -> failure = (i <= 0);
+            case Long l -> failure = (l <= 0L);
+            case BigDecimal bigDecimal -> failure = (bigDecimal.signum() <= 0);
+            case BigInteger bigInteger -> failure = (bigInteger.signum() <= 0);
+            case Byte b -> failure = (b <= 0);
+            case Double v -> failure = (v <= 0.0d);
+            case Float v -> failure = (v <= 0.0f);
+            case Short i -> failure = (i <= 0);
+            case AtomicInteger atomicInteger -> failure = (atomicInteger.intValue() <= 0);
+            case AtomicLong atomicLong -> failure = (atomicLong.longValue() <= 0l);
+            case null, default -> {
+                checkFailed("The passed " + x.getClass().getName() + " is not handled -- fix code!");
+                assert false : "Never get here";
+                throw new Error(NEVER_GETTING_HERE_BUT_KEEPING_COMPILER_HAPPY);
+            }
         }
         failComparison(failure, x, name, "less than or equal to 0");
         return x;
@@ -561,30 +552,22 @@ public class BasicChecks {
     public static Number checkLargerOrEqualToZero(Number x, String name) {
         checkNotNull(x, name);
         boolean failure;
-        if (x instanceof Integer) {
-            failure = (((Integer) x).intValue() < 0);
-        } else if (x instanceof Long) {
-            failure = (((Long) x).longValue() < 0l);
-        } else if (x instanceof BigDecimal) {
-            failure = (((BigDecimal) x).signum() < 0);
-        } else if (x instanceof BigInteger) {
-            failure = (((BigInteger) x).signum() < 0);
-        } else if (x instanceof Byte) {
-            failure = (((Byte) x).byteValue() < 0);
-        } else if (x instanceof Double) {
-            failure = (((Double) x).doubleValue() < 0.0d);
-        } else if (x instanceof Float) {
-            failure = (((Float) x).floatValue() < 0.0f);
-        } else if (x instanceof Short) {
-            failure = (((Short) x).shortValue() < 0);
-        } else if (x instanceof AtomicInteger) {
-            failure = (((AtomicInteger) x).intValue() < 0);
-        } else if (x instanceof AtomicLong) {
-            failure = (((AtomicLong) x).longValue() < 0l);
-        } else {
-            instaFail("The passed " + x.getClass().getName() + " is not handled -- fix code!");
-            assert false : "Never get here";
-            throw new Error(NEVER_GETTING_HERE_BUT_KEEPING_COMPILER_HAPPY);
+        switch (x) {
+            case Integer i -> failure = (i < 0);
+            case Long l -> failure = (l < 0L);
+            case BigDecimal bigDecimal -> failure = (bigDecimal.signum() < 0);
+            case BigInteger bigInteger -> failure = (bigInteger.signum() < 0);
+            case Byte b -> failure = (b < 0);
+            case Double v -> failure = (v < 0.0d);
+            case Float v -> failure = (v < 0.0f);
+            case Short i -> failure = (i < 0);
+            case AtomicInteger atomicInteger -> failure = (atomicInteger.intValue() < 0);
+            case AtomicLong atomicLong -> failure = (atomicLong.longValue() < 0l);
+            case null, default -> {
+                checkFailed("The passed " + x.getClass().getName() + " is not handled -- fix code!");
+                assert false : "Never get here";
+                throw new Error(NEVER_GETTING_HERE_BUT_KEEPING_COMPILER_HAPPY);
+            }
         }
         failComparison(failure, x, name, "less than 0");
         return x;
@@ -994,19 +977,19 @@ public class BasicChecks {
 
     public static void checkTrue(boolean x) {
         if (!x) {
-            instaFail("Test for 'true' fails (no further indication or text)");
+            checkFailed("Test for 'true' fails (no further indication or text)");
         }
     }
 
     public static void checkTrue(boolean x, String txt) {
         if (!x) {
-            instaFail(txt);
+            checkFailed(txt);
         }
     }
 
     public static void checkTrue(boolean x, String txt, Object arg) {
         if (!x) {
-            instaFail(txt, arg);
+            checkFailed(txt, arg);
         }
         if (FORMATTER_ALWAYS_ON) {
             System.err.println(Formatter.formatForMe(INNOCUOUS_TEXT + txt, arg));
@@ -1015,7 +998,7 @@ public class BasicChecks {
 
     public static void checkTrue(boolean x, String txt, Object arg1, Object arg2) {
         if (!x) {
-            instaFail(txt, arg1, arg2);
+            checkFailed(txt, arg1, arg2);
         }
         if (FORMATTER_ALWAYS_ON) {
             System.err.println(Formatter.formatForMe(INNOCUOUS_TEXT + txt, arg1, arg2));
@@ -1024,7 +1007,7 @@ public class BasicChecks {
 
     public static void checkTrue(boolean x, String txt, Object arg1, Object arg2, Object... args) {
         if (!x) {
-            instaFail(txt, recopyArray(arg1, arg2, args));
+            checkFailed(txt, recopyArray(arg1, arg2, args));
             // will call the fail(String txt, Object... args) method
         }
         if (FORMATTER_ALWAYS_ON) {
@@ -1038,19 +1021,19 @@ public class BasicChecks {
 
     public static void checkImplies(boolean a, boolean b) {
         if (a && !b) {
-            instaFail("Test for 'implication' fails (no further indication or text)");
+            checkFailed("Test for 'implication' fails (no further indication or text)");
         }
     }
 
     public static void checkImplies(boolean a, boolean b, String txt) {
         if (a && !b) {
-            instaFail(txt);
+            checkFailed(txt);
         }
     }
 
     public static void checkImplies(boolean a, boolean b, String txt, Object... args) {
         if (a && !b) {
-            instaFail(txt, args);
+            checkFailed(txt, args);
         }
         if (FORMATTER_ALWAYS_ON) {
             System.err.println(Formatter.formatForMe(INNOCUOUS_TEXT + txt, args));
@@ -1063,19 +1046,19 @@ public class BasicChecks {
 
     public static void checkFalse(boolean x) {
         if (x) {
-            instaFail("Test for 'false' fails (no further indication or text)");
+            checkFailed("Test for 'false' fails (no further indication or text)");
         }
     }
 
     public static void checkFalse(boolean x, String txt) {
         if (x) {
-            instaFail(txt);
+            checkFailed(txt);
         }
     }
 
     public static void checkFalse(boolean x, String txt, Object arg) {
         if (x) {
-            instaFail(txt, arg);
+            checkFailed(txt, arg);
         }
         if (FORMATTER_ALWAYS_ON) {
             System.err.println(Formatter.formatForMe(INNOCUOUS_TEXT + txt, arg));
@@ -1084,7 +1067,7 @@ public class BasicChecks {
 
     public static void checkFalse(boolean x, String txt, Object arg1, Object arg2) {
         if (x) {
-            instaFail(txt, arg1, arg2);
+            checkFailed(txt, arg1, arg2);
         }
         if (FORMATTER_ALWAYS_ON) {
             System.err.println(Formatter.formatForMe(INNOCUOUS_TEXT + txt, arg1, arg2));
@@ -1093,7 +1076,7 @@ public class BasicChecks {
 
     public static void checkFalse(boolean x, String txt, Object arg1, Object arg2, Object... args) {
         if (x) {
-            instaFail(txt, recopyArray(arg1, arg2, args));
+            checkFailed(txt, recopyArray(arg1, arg2, args));
         }
         if (FORMATTER_ALWAYS_ON) {
             System.err.println(Formatter.formatForMe(INNOCUOUS_TEXT + txt, recopyArray(arg1, arg2, args)));
@@ -1193,8 +1176,8 @@ public class BasicChecks {
         newArray[1] = arg2;
         if (args != null) {
             int j = 2;
-            for (int i = 0; i < args.length; i++) {
-                newArray[j] = args[i];
+            for (Object arg : args) {
+                newArray[j] = arg;
                 j++;
             }
         }
@@ -1208,9 +1191,9 @@ public class BasicChecks {
     private static void failComparison(boolean failure, Number x, String name, String cmp) {
         if (failure) {
             if (name == null) {
-                instaFail("The unnamed '" + x.getClass().getName() + "' is " + cmp + ": " + x);
+                checkFailed("The unnamed '" + x.getClass().getName() + "' is " + cmp + ": " + x);
             } else {
-                instaFail("The  '" + x.getClass().getName() + "' + '" + name + "' is  " + cmp + ": " + x);
+                checkFailed("The  '" + x.getClass().getName() + "' + '" + name + "' is  " + cmp + ": " + x);
             }
             assert false : "Never get here";
         }

@@ -39,16 +39,6 @@ Examples:
 * Hamcrest Matchers: `assertThat(notificationText, containsString("testuser@google.com"));`
 * AssertJ or Truth: `assertThat(notificationText).contains("testuser@google.com");` 
 
-## Code organization
-
-* Jars ready to use underneath `jars`. The JUnit tests are in a separate jar. So are the sources.
-* Source tree underneath `src`, with JUnit tests in the `tests` leaf package.
-* A bash script to run the JUnit tests has been provided.
-* TODO: Adding a Gradle/Maven build definition.
-* The tree under `utils_checks` is actually an Eclipse project, it has a `.classpath` and `.project`file. So everything can be pulled into Eclipse directly via "git repository exploring".
-
-![File Organization](https://github.com/dtonhofer/java_utils_checks/blob/master/FileOrg.png)
-
 ## How to use this?
 
 The class `name.heavycarbon.checks.BasicChecks` exports a set of static methods that can be placed into code to perform runtime checks of the presumed program state. Some of these take messages with placeholders and the corresponding arguments as a vararg array. The placeholders in the messages can be [printf style](http://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html) or [SLF4J style](http://slf4j.org/faq.html#logging_performance) (i.e. the placeholder is indicated by '{}').
