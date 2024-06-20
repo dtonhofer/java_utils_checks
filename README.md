@@ -61,7 +61,7 @@ Some methods return the object that was checked, so you may write:
 ~~~
 Long x = checkNotNull(callStuff()):
 ~~~
- 
+
 ## Exceptions thrown
 
 All of the methods throw `CheckFailedException` derived from [`RuntimeException`](http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html), instead of the following:
@@ -113,6 +113,10 @@ static InputStream getStreamFromFile(File fileName) {
      return new FileInputStream(fileName)
 }
 ~~~
+
+## Building bytecode and source jars
+
+Use the [Apache Maven](https://maven.apache.org/) tool for this. See the `pom.xml` project declaration for details.
 
 ## Ideas for Improvements
 
