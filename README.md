@@ -27,17 +27,14 @@ For more complete/elegant approaches, see the Wikipedia entry for [Design by Con
 
 ### Expressing pass/fail conditions in Java
 
-For an interesting way to express the pass/fail conditions in Java, generally used in Unit Tests:
+For an interesting way to express the pass/fail conditions in Java, generally in Unit Tests:
 
 * [Hamcrest Matchers](http://hamcrest.org/JavaHamcrest/)
-* [AssertJ](https://joel-costigliola.github.io/assertj/) - fluent assertions for Java
-* [Truth](https://truth.dev/api/latest/index.html?overview-summary.html) - also fluent assertions for Java
-   * See [Truth vs. AssertJ and Hamcrest](https://truth.dev/comparison.html). _Truth_ and _AssertJ_ are "fluent", allowing the IDE to suggest method calls as you type. When did coding approaches start to cater to IDE integration? Must have been around 2007. It's an excellent idea! 
+* [AssertJ](https://joel-costigliola.github.io/assertj/) - fluent assertions for Java, allowing the IDE to suggest method calls as you type, also chainable.
+* [Truth](https://truth.dev/api/latest/index.html?overview-summary.html) - also fluent assertions for Java, but not chainable
+   * See [Truth vs. AssertJ and Hamcrest](https://truth.dev/comparison.html).
 
-Examples:
-
-* Hamcrest Matchers: `assertThat(notificationText, containsString("testuser@google.com"));`
-* AssertJ or Truth: `assertThat(notificationText).contains("testuser@google.com");` 
+A failing AssertJ and a failing JUnit 5 test throws [`org.opentest4j.AssertionFailedError`](https://ota4j-team.github.io/opentest4j/docs/1.3.0/api/org/opentest4j/AssertionFailedError.html), which derives from Java's [`java.lng.AssertionError`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/AssertionError.html).
 
 ## How to use this?
 
