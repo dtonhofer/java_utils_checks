@@ -4,6 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Run tests with: mvn test -->
+
+    <!-- Create "Jar" with: mvn jar:jar -->
+    <!-- This gives: "target/java_utils_checks-2.0.jar" -->
+
+    <!-- Create "Test jar" with: mvn jar:test-jar -->
+    <!-- This gives: "target/java_utils_checks-2.0-tests.jar" -->
+
+    <!-- Create "Source jar" with: mvn source:jar -->
+    <!-- This gives: "target/java_utils_checks-2.0-sources.jar" -->
+
+    <!-- Create "Test source jar" with: mvn source:test-jar -->
+    <!-- This gives: "target/java_utils_checks-2.0-test-sources.jar" -->
+
     <groupId>name.heavycarbon</groupId>
     <artifactId>java_utils_checks</artifactId>
     <version>2.0</version> <!-- v2 is updated for Java 21 -->
@@ -16,32 +30,46 @@
     </properties>
 
     <dependencies>
+
         <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
-        <!-- This should pull in dependencies -->
+        <!-- Pulls in: org.opentest4j:opentest4j -->
+        <!-- Pulls in: org.junit.platform:junit-platform-commons -->
+        <!-- Pulls in: org.apiguardian:apiguardian-api -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.10.2</version>
+            <scope>test</scope> <!-- TEST -->
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
+        <!-- Pulls in: net.bytebuddy:byte-buddy -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.26.0</version>
+            <scope>test</scope> <!-- TEST -->
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest -->
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>2.2</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.google.truth/truth -->
+        <dependency>
+            <groupId>com.google.truth</groupId>
+            <artifactId>truth</artifactId>
+            <version>1.4.2</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
-    <!-- Run tests with: mvn test -->
-
-    <!-- Jar with: mvn jar:jar -->
-    <!-- This gives: "target/java_utils_checks-1.0.jar" -->
-
-    <!-- Test jar with: mvn jar:test-jar -->
-    <!-- This gives: "target/java_utils_checks-1.0-tests.jar" -->
-
-    <!-- Source jar with: mvn source:jar -->
-    <!-- This gives: "target/java_utils_checks-1.0-sources.jar" -->
-
-    <!-- Test source jar with: mvn source:test-jar -->
-    <!-- This gives: "target/java_utils_checks-1.0-test-sources.jar" -->
-
-
-    <!-- Maven Source Plugin and Surfire (testing) plugin seems to work even if not configured -->
+    <!-- Maven Source Plugin and Surefire (testing) plugin seems to work even if not configured in POM -->
 
     <build>
         <plugins>
