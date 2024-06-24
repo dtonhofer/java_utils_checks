@@ -4,8 +4,10 @@ import org.junit.jupiter.api.Test;
 
 class TestingTesting {
 
-    final String actual = "140° Celsius";
-    final String expected = "140° Celsius";
+    // Change these to elicit test failures.
+
+    private String actual = "140° Celsius";
+    private String expected = "140° Celsius";
 
     // ---
     // ** Java Assertions **
@@ -160,4 +162,5 @@ class TestingTesting {
                 });
         com.google.common.truth.Truth.assertThat(t.getMessage()).contains("Celsius");
     }
+
 }

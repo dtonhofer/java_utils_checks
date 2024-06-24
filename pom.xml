@@ -67,6 +67,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.jgotesting/jgotesting -->
+        <dependency>
+            <groupId>org.jgotesting</groupId>
+            <artifactId>jgotesting</artifactId>
+            <version>0.12</version>
+        </dependency>
+
     </dependencies>
 
     <!-- Maven Source Plugin and Surefire (testing) plugin seems to work even if not configured in POM -->
