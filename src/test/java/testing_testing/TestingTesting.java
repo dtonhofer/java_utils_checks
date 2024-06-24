@@ -13,9 +13,12 @@ class TestingTesting {
     // ** Java Assertions **
     // Do not do it like this! Assertions are meant for (switch-offable) runtime checks in non-testing code.
     // This only works if "assertions" have been enabled in the JVM with "-ea" flag.
+    //
     // Throws "java.lang.AssertionError" on check failure.
+    //
     // Explainer: https://docs.oracle.com/javase/8/docs/technotes/guides/language/assert.html
     // API doc: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/AssertionError.html
+    //
     // Note that checking that "an exception is thrown" is not possible and makes no sense for this usage intention.
     // Note that it is not prescribed what the message should say (should it say what 'should be the case'
     // or what 'should not be the case'?). As is not actually meant to be read by an end-user, you can be
@@ -36,9 +39,11 @@ class TestingTesting {
     // ---
     // ** Standard JUnit 5 **
     // Pull in URL: https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
-    // Throws "org.opentest4j.AssertionFailedError" on check failure.
     // Note that "expected" is the FIRST argument.
+    //
+    // Throws "org.opentest4j.AssertionFailedError" on check failure.
     // https://ota4j-team.github.io/opentest4j/docs/1.3.0/api/org/opentest4j/AssertionFailedError.html
+    //
     // API doc top: https://junit.org/junit5/docs/current/api/
     // API doc: https://junit.org/junit5/docs/current/api/org.junit.jupiter.api/org/junit/jupiter/api/Assertions.html
     // ---
@@ -60,8 +65,10 @@ class TestingTesting {
     // ---
     // ** Hamcrest matching **
     // Pull in URL: https://mvnrepository.com/artifact/org.hamcrest/hamcrest
-    // Throws "java.lang.AssertionError" on check failure.
     // Note that "expected" is the RIGHTMOST argument, inside a "Matcher".
+    //
+    // Throws "java.lang.AssertionError" on check failure.
+    //
     // API doc top: https://hamcrest.org/JavaHamcrest/javadoc/2.2/
     // API doc: https://hamcrest.org/JavaHamcrest/javadoc/2.2/org/hamcrest/MatcherAssert.html
     // ---
@@ -85,8 +92,9 @@ class TestingTesting {
     }
 
     // ---
-    // Hamcrest matching, but throw via JUnit.
-    // (There isn't any advantage doing this)
+    // Hamcrest matching, but throw via JUnit instead of through org.hamcrest.MatcherAssert.assertThat()
+    // The only advantage of doing it like this is that what is thrown is the
+    // "org.opentest4j.AssertionFailedError" rather than just the "java.lang.AssertionError".
     // ---
 
     @Test
@@ -97,9 +105,12 @@ class TestingTesting {
 
     // ---
     // ** AssertJ **
-    // AssertJ allows "fluent style" where you use ".assertX()" repeatedly.
+    // AssertJ allows "fluent style" where the check is a proper method than can be proposed by the IDE.
+    // AssertJ also allows one to chain those calls if so desired.
+    // Note that "actual" is the leftmost argument in the call chain.
+    //
     // Throws "org.opentest4j.AssertionFailedError"  on check failure.
-    // Note that "actual" is the leftmost argument in the fluent chain.
+    //
     // Pull in URL: https://mvnrepository.com/artifact/org.assertj/assertj-core
     // Explainer: https://assertj.github.io/doc/
     // API doc top: https://www.javadoc.io/doc/org.assertj/assertj-core/latest/index.html
@@ -130,18 +141,22 @@ class TestingTesting {
 
     // ---
     // ** Google Truth **
-    // Throws "com.google.common.truth.AssertionErrorWithFacts" on check failure.
-    // Pull in URL: https://mvnrepository.com/artifact/com.google.truth/truth
-    // Explainer: https://truth.dev/
-    // API doc top: https://truth.dev/api/latest/index.html?overview-summary.html
-    // API doc: https://truth.dev/api/latest/com/google/common/truth/Truth.html
-    // Uses "Stack Trace Cleaning":
-    // https://truth.dev/stack_trace_cleaner
-    // You cannot chain the assertions:
-    // https://github.com/google/truth/issues/253
+    // Google Truth allows "fluent style" where the check is a proper method than can be proposed by the IDE.
+    // However, one cannot chain the calls: https://github.com/google/truth/issues/253
     // "In general, we've avoided chaining of assertions for various reasons (decrease
     // in readability of single assertions, trickier failure messages, harder to pin-point
     // lines during failures, etc)."
+    // Note that "actual" is the leftmost argument in the call chain.
+    // Explainer: https://truth.dev/
+    //
+    // Throws "com.google.common.truth.AssertionErrorWithFacts" on check failure.
+    //
+    // Pull in URL: https://mvnrepository.com/artifact/com.google.truth/truth
+    // API doc top: https://truth.dev/api/latest/index.html?overview-summary.html
+    // API doc: https://truth.dev/api/latest/com/google/common/truth/Truth.html
+    //
+    // Uses "Stack Trace Cleaning":
+    // https://truth.dev/stack_trace_cleaner
     // ---
 
     @Test

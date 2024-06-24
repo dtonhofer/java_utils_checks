@@ -72,4 +72,5 @@ public class TestingJGoTesting {
             test.terminate("Some problems turned up already!");
         }
     }
+
 }
