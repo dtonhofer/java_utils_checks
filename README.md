@@ -154,9 +154,12 @@ to ensure compatibility with other unit testing frameworks. That is a subclass o
 [`java.lang.AssertionError`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/AssertionError.html).
 A failing JUnit 4 test throws [`java.lang.AssertionError`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/AssertionError.html) directly.
 
-For another approach see [JGoTesting](https://gitlab.com/tastapod/jgotesting). Explained in [this blogpost](https://dannorth.net/scratching-a-junit-itch/).
-`JGoTesting` seems frozen and is based on JUnit 4. Its advantage is that it allows one to perform several checks before a test failure is actually reported,
-whereas JUnit breaks off and reports test failure on the first failing check. 
+ * [JGoTesting](https://gitlab.com/tastapod/jgotesting)
+
+This is a "modified JUnit" as explained in [this blogpost](https://dannorth.net/scratching-a-junit-itch/).
+JGoTesting allows one to perform several checks before a test failure is actually reported, whereas JUnit
+breaks off and reports test failure on the first failing check. (Unfortunately `JGoTesting` seems frozen and
+is still based on JUnit 4). 
 
 ## Mixed
 
