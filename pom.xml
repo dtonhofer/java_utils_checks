@@ -18,6 +18,8 @@
     <!-- Create "Test source jar" with: mvn source:test-jar -->
     <!-- This gives: "target/java_utils_checks-2.0-test-sources.jar" -->
 
+    <!-- All at once:  mvn jar:jar jar:test-jar source:test-jar source:jar -->
+
     <groupId>name.heavycarbon</groupId>
     <artifactId>java_utils_checks</artifactId>
     <version>2.0</version> <!-- v2 is updated for Java 21 -->
