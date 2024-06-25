@@ -4,6 +4,23 @@
 
 Java utility classes to perform basic runtime checks, similar to what is done with [Java `assert` keyword](https://docs.oracle.com/javase/8/docs/technotes/guides/language/assert.html).
 
+### Can I use something else?
+
+See further below for alternative approaches and libraries. Also:
+
+* There has been a simple object-not-null-checking method call, throwing `NullPointerException`, since Java 7 (July 2011): 
+  [`Objects.requireNotNull`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Objects.html#requireNonNull(T))
+  in [`java.util.Objects`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Objects.html)  
+* It is recommended to use `@NotNull` and `@Nullable` annotations instead of checking for not-nullness through method calls at runtime, because this
+  gives an IDE additional information for linting at development time. Very powerful.
+   * [Project Lombok](https://objectcomputing.com/resources/publications/sett/january-2010-reducing-boilerplate-code-with-project-lombok) provides
+     the `@NotNull` annotation, among other delicious features. The IDE needs a plugin to handle the bytecode rejiggling.
+   * If you are using IntellijIDEA, there is `org.jetbrains.annotations.NotNull` and `org.jetbrains.annotations.Nullable`, just include [the project](https://mvnrepository.com/artifact/org.jetbrains/annotations).
+   * There are [Jakarta Bean Validation](https://jakarta.ee/learn/docs/jakartaee-tutorial/current/beanvalidation/bean-validation/bean-validation.html) annotations (formerly under `javax.validation`, now under `jakarta.validation`).
+     [API doc](https://jakarta.ee/specifications/bean-validation/3.0/apidocs/). 
+   * 2011-02: [Which @NotNull Java annotation should I use?](https://stackoverflow.com/questions/4963300/which-notnull-java-annotation-should-i-use)
+   * 2023-07: [What @Nullable to use in Java (as of 2023/JDK21)?](https://stackoverflow.com/questions/76630457/what-nullable-to-use-in-java-as-of-2023-jdk21/)
+  
 ## How to use this?
 
 The class [`name.heavycarbon.checks.BasicChecks`](src/main/java/name/heavycarbon/checks/BasicChecks.java) exports a set of static methods that can be placed
