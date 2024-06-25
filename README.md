@@ -11,7 +11,7 @@ See further below for alternative approaches and libraries. Also:
 * There has been a simple object-not-null-checking method call, throwing `NullPointerException`, since Java 7 (July 2011): 
   [`Objects.requireNotNull`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Objects.html#requireNonNull(T))
   in [`java.util.Objects`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Objects.html)  
-* It is recommended to use `@NotNull` and `@Nullable` annotations instead of checking for not-nullness through method calls at runtime, because this
+* It is recommended to use `@NotNull` and `@Nullable` annotations instead of checking for not-nullness through method calls at runtime (where applicable) because this
   gives an IDE additional information for linting at development time. Very powerful.
    * [Project Lombok](https://objectcomputing.com/resources/publications/sett/january-2010-reducing-boilerplate-code-with-project-lombok) provides
      the `@NotNull` annotation, among other delicious features. The IDE needs a plugin to handle the bytecode rejiggling.
@@ -20,6 +20,7 @@ See further below for alternative approaches and libraries. Also:
      [API doc](https://jakarta.ee/specifications/bean-validation/3.0/apidocs/). 
    * 2011-02: [Which @NotNull Java annotation should I use?](https://stackoverflow.com/questions/4963300/which-notnull-java-annotation-should-i-use)
    * 2023-07: [What @Nullable to use in Java (as of 2023/JDK21)?](https://stackoverflow.com/questions/76630457/what-nullable-to-use-in-java-as-of-2023-jdk21/)
+     * which mentions the runtime [Checker framework](https://checkerframework.org/manual/)
   
 ## How to use this?
 
